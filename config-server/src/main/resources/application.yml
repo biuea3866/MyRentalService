@@ -1,0 +1,12 @@
+server:
+  port: ${port:8888}
+
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///home/biuea/Desktop/MyRentalPlatform/git-local-repo

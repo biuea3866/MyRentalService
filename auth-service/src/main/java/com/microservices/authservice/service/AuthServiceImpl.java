@@ -56,6 +56,24 @@ public class AuthServiceImpl implements AuthService {
                       .build();
     }
 
+    @Transactional
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        log.info("Auth Service's Service Layer :: Call getUserDetailsByEmail Method!");
+
+        UserEntity userEntity = authRepository.findByEmail(email);
+
+        if(userEntity == null) throw new UsernameNotFoundException(email);
+
+        return UserDto.builder()
+                      .email(userEntity.getEmail())
+                      .nickname(userEntity.getNickname())
+                      .phoneNumber(userEntity.getPhoneNumber())
+                      .userId(userEntity.getUserId())
+                      .encryptedPwd(userEntity.getEncryptedPwd())
+                      .build();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = authRepository.findByEmail(email);
