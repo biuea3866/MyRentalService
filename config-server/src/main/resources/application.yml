@@ -5,8 +5,20 @@ spring:
   application:
     name: config-server
 
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
   cloud:
     config:
       server:
         git:
-          uri: file:///home/biuea/Desktop/MyRentalPlatform/git-local-repo
+          uri: https://github.com/biuea3866/my_rental_config
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans, httptrace, busrefresh

@@ -2,6 +2,12 @@ spring:
   application:
     name: apigateway-service
 
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
   cloud:
     gateway:
       routes:
@@ -33,7 +39,16 @@ spring:
             - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
-    default-filters:
+        - id: auth
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
+
+      default-filters:
         - name: GlobalFilter
           args:
             baseMessage: Spring Cloud Gateway Global Filter
@@ -49,6 +64,12 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+#
+#token:
+#  secret: user_token
 
-token:
-  secret: user_token
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, busrefresh
