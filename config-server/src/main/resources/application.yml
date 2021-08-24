@@ -15,7 +15,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/biuea3866/my_rental_config
+          uri: file://${user.home}/Desktop/MyRentalPlatform/git-local-repo
 
 management:
   endpoints:

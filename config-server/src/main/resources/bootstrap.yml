@@ -1,0 +1,5 @@
+encrypt:
+  key-store:
+    location: file://${user.home}/Desktop/MyRentalKeyStore/encryptionKey.jks
+    password: 10a10a
+    alias: encryptionKey
