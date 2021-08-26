@@ -102,7 +102,7 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPosts() {
         log.info("Post Service's Service Layer :: Call getAllPosts Method!");
 
-        Iterable<PostEntity> posts = postRepository.findAllByStatus("CREATE_POST");
+        Iterable<PostEntity> posts = postRepository.findAll();
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
@@ -120,6 +120,34 @@ public class PostServiceImpl implements PostService {
                                 .images(v.getImages())
                                 .comments(v.getComments())
                                 .build());
+        });
+
+        return postList;
+    }
+
+    @Transactional
+    @Override
+    public Iterable<PostDto> getAllPostsByCreate() {
+        log.info("Post Service's Service Layer :: Call getAllPostsByCreate Method!");
+
+        Iterable<PostEntity> posts = postRepository.findAllByStatus("CREATE_POST");
+        List<PostDto> postList = new ArrayList<>();
+
+        posts.forEach(v -> {
+            postList.add(PostDto.builder()
+                .postId(v.getPostId())
+                .userId(v.getUserId())
+                .postType(v.getPostType())
+                .rentalPrice(v.getRentalPrice())
+                .title(v.getTitle())
+                .content(v.getContent())
+                .startDate(v.getStartDate())
+                .endDate(v.getEndDate())
+                .createdAt(v.getCreatedAt())
+                .writer(v.getWriter())
+                .images(v.getImages())
+                .comments(v.getComments())
+                .build());
         });
 
         return postList;

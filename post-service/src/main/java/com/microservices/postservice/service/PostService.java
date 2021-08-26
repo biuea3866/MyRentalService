@@ -9,6 +9,8 @@ public interface PostService {
 
     Iterable<PostDto> getAllPosts();
 
+    Iterable<PostDto> getAllPostsByCreate();
+
     Iterable<PostDto> getPostsByUserId(String userId);
 
     PostDto deletePost(String postId);
