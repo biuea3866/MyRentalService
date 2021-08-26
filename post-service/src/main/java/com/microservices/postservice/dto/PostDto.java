@@ -1,5 +1,7 @@
 package com.microservices.postservice.dto;
 
+import com.microservices.postservice.entity.CommentEntity;
+import com.microservices.postservice.entity.ImageEntity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,15 +16,14 @@ public class PostDto {
     private Long rentalPrice;
     private String title;
     private String content;
-    private List<String> date;
-    private int isLike;
-    private int isDislike;
-    private int viewCnt;
-    private int delYn;
+    private String startDate;
+    private String endDate;
     private String createdAt;
     private String writer;
     private String status;
-    private List<MultipartFile> images;
+    private List<MultipartFile> multipartFiles;
+    private List<CommentEntity> comments;
+    private List<ImageEntity> images;
 
     @Builder
     public PostDto(
@@ -32,15 +33,14 @@ public class PostDto {
         Long rentalPrice,
         String title,
         String content,
-        List<String> date,
-        int isLike,
-        int isDislike,
-        int viewCnt,
-        int delYn,
+        String startDate,
+        String endDate,
         String createdAt,
         String writer,
         String status,
-        List<MultipartFile> images
+        List<MultipartFile> multipartFiles,
+        List<CommentEntity> comments,
+        List<ImageEntity> images
     ) {
         this.postId = postId;
         this.userId = userId;
@@ -48,14 +48,13 @@ public class PostDto {
         this.rentalPrice = rentalPrice;
         this.title = title;
         this.content = content;
-        this.date = date;
-        this.isLike = isLike;
-        this.isDislike = isDislike;
-        this.viewCnt = viewCnt;
-        this.delYn = delYn;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.createdAt = createdAt;
         this.writer = writer;
         this.status = status;
+        this.multipartFiles = multipartFiles;
         this.images = images;
+        this.comments = comments;
     }
 }

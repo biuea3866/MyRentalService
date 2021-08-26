@@ -1,7 +1,10 @@
 package com.microservices.postservice.controller;
 
+import com.microservices.postservice.dto.CommentDto;
 import com.microservices.postservice.dto.PostDto;
+import com.microservices.postservice.service.CommentService;
 import com.microservices.postservice.service.PostService;
+import com.microservices.postservice.vo.RequestCreateComment;
 import com.microservices.postservice.vo.RequestWrite;
 import com.microservices.postservice.vo.ResponsePost;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +22,13 @@ import java.util.List;
 @Slf4j
 public class PostController {
     private PostService postService;
+    private CommentService commentService;
     private Environment env;
 
     @Autowired
     public PostController(
         PostService postService,
+        CommentService commentService,
         Environment env
     ) {
         this.postService = postService;
@@ -41,16 +46,19 @@ public class PostController {
 
     // Using by RequestCreate class, Write Post
     @PostMapping("/write")
-    public ResponseEntity<?> write(@ModelAttribute RequestWrite postVo) {
+    public ResponseEntity<?> write(@ModelAttribute RequestWrite postVo) throws Exception {
         log.info("Post Service's Controller Layer :: Call write Method!");
 
         PostDto postDto = PostDto.builder()
                                  .postType(postVo.getPostType())
                                  .title(postVo.getTitle())
                                  .content(postVo.getContent())
+                                 .startDate(postVo.getDate().get(0))
+                                 .endDate(postVo.getDate().get(1))
                                  .rentalPrice(postVo.getRentalPrice())
                                  .writer(postVo.getWriter())
                                  .userId(postVo.getUserId())
+                                 .multipartFiles(postVo.getImages())
                                  .build();
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -68,15 +76,13 @@ public class PostController {
                                           .title(post.getTitle())
                                           .content(post.getContent())
                                           .rentalPrice(post.getRentalPrice())
-                                          .startDate(post.getDate().get(0))
-                                          .endDate(post.getDate().get(1))
+                                          .startDate(post.getStartDate())
+                                          .endDate(post.getEndDate())
                                           .createdAt(post.getCreatedAt())
-                                          .isLike(post.getIsLike())
-                                          .isDislike(post.getIsDislike())
-                                          .delYn(post.getDelYn())
-                                          .viewCnt(post.getViewCnt())
                                           .writer(post.getWriter())
                                           .userId(post.getUserId())
+                                          .images(post.getImages())
+                                          .comments(post.getComments())
                                           .status(post.getStatus())
                                           .build();
 
@@ -93,24 +99,22 @@ public class PostController {
         List<ResponsePost> result = new ArrayList<>();
 
         postList.forEach(post -> {
-                result.add(
-                    ResponsePost.builder()
-                        .postId(post.getPostId())
-                        .postType(post.getPostType())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .rentalPrice(post.getRentalPrice())
-                        .startDate(post.getDate().get(0))
-                        .endDate(post.getDate().get(1))
-                        .createdAt(post.getCreatedAt())
-                        .isLike(post.getIsLike())
-                        .isDislike(post.getIsDislike())
-                        .delYn(post.getDelYn())
-                        .viewCnt(post.getViewCnt())
-                        .writer(post.getWriter())
-                        .userId(post.getUserId())
-                        .status(post.getStatus())
-                        .build()
+            result.add(
+                ResponsePost.builder()
+                            .postId(post.getPostId())
+                            .postType(post.getPostType())
+                            .title(post.getTitle())
+                            .content(post.getContent())
+                            .rentalPrice(post.getRentalPrice())
+                            .startDate(post.getStartDate())
+                            .endDate(post.getEndDate())
+                            .createdAt(post.getCreatedAt())
+                            .writer(post.getWriter())
+                            .userId(post.getUserId())
+                            .status(post.getStatus())
+                            .images(post.getImages())
+                            .comments(post.getComments())
+                            .build()
                 );
             }
         );
@@ -134,16 +138,14 @@ public class PostController {
                             .title(post.getTitle())
                             .content(post.getContent())
                             .rentalPrice(post.getRentalPrice())
-                            .startDate(post.getDate().get(0))
-                            .endDate(post.getDate().get(1))
+                            .startDate(post.getStartDate())
+                            .endDate(post.getEndDate())
                             .createdAt(post.getCreatedAt())
-                            .isLike(post.getIsLike())
-                            .isDislike(post.getIsDislike())
-                            .delYn(post.getDelYn())
-                            .viewCnt(post.getViewCnt())
                             .writer(post.getWriter())
                             .userId(post.getUserId())
                             .status(post.getStatus())
+                            .images(post.getImages())
+                            .comments(post.getComments())
                             .build()
                 );
             }
@@ -167,5 +169,30 @@ public class PostController {
 
         return ResponseEntity.status(HttpStatus.OK)
                              .body(postService.deletePost(postId));
+    }
+
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<?> writeComment(
+        @PathVariable("postId") String postId,
+        @RequestBody RequestCreateComment comment
+    ) {
+        log.info("Post Service's Controller Layer :: Call writeComment Method!");
+
+        CommentDto commentDto = CommentDto.builder()
+                                          .postId(postId)
+                                          .writer(comment.getWriter())
+                                          .comment(comment.getComment())
+                                          .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(commentService.writeComment(commentDto));
+    }
+
+    @DeleteMapping("/{commentId}/comments")
+    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
+        log.info("Post Service's Controller Layer :: Call deleteComment Method!");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(commentService.deleteComment(commentId));
     }
 }

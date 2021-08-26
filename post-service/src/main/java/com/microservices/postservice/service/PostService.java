@@ -3,7 +3,7 @@ package com.microservices.postservice.service;
 import com.microservices.postservice.dto.PostDto;
 
 public interface PostService {
-    PostDto write(PostDto postDto);
+    Long write(PostDto postDto) throws Exception;
 
     PostDto readPostByPostId(String postId);
 

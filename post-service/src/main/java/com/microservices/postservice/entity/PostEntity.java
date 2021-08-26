@@ -45,18 +45,6 @@ public class PostEntity {
     @Column(nullable = true)
     private String endDate;
 
-    @Column(columnDefinition = "integer default 0")
-    private int isLike;
-
-    @Column(columnDefinition = "integer default 0")
-    private int isDislike;
-
-    @Column(columnDefinition = "integer default 0")
-    private int viewCnt;
-
-    @Column(columnDefinition = "integer default 0")
-    private int delYn;
-
     private String createdAt;
 
     private String writer;
@@ -87,10 +75,6 @@ public class PostEntity {
         String content,
         String startDate,
         String endDate,
-        int isLike,
-        int isDislike,
-        int viewCnt,
-        int delYn,
         String createdAt,
         String writer,
         String status
@@ -103,10 +87,6 @@ public class PostEntity {
         this.content = content;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isLike = isLike;
-        this.isDislike = isDislike;
-        this.viewCnt = viewCnt;
-        this.delYn = delYn;
         this.createdAt = createdAt;
         this.writer = writer;
         this.status = status;
