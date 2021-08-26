@@ -1,0 +1,56 @@
+package com.microservices.postservice.entity;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name="images")
+public class ImageEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="image_id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="post_id")
+    private PostEntity post;
+
+    @Column(nullable = false)
+    private String orgFilename;
+
+    @Column(nullable = false)
+    private String fileName;
+
+    @Column(nullable = false)
+    private String filePath;
+
+    private Long fileSize;
+
+    @Builder
+    public ImageEntity(
+        PostEntity post,
+        String orgFilename,
+        String filePath,
+        String fileName,
+        Long fileSize
+    ) {
+        this.post = post;
+        this.orgFilename = orgFilename;
+        this.filePath = filePath;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+    }
+
+    public void setPost(PostEntity post) {
+        this.post = post;
+
+        if(!post.getImages().contains(this)) {
+            post.getImages().add(this);
+        }
+    }
+}
