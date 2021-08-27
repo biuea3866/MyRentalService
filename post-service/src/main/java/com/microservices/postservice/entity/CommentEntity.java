@@ -1,5 +1,7 @@
 package com.microservices.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import javax.persistence.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="comment_id")
     Long id;
 
     @Column(nullable = false)

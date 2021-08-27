@@ -1,5 +1,7 @@
 package com.microservices.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ public class PostEntity {
     )
     private String postId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userId;
 
     @Column(nullable = false)
@@ -58,11 +60,7 @@ public class PostEntity {
     )
     private List<ImageEntity> images = new ArrayList<>();
 
-    @OneToMany(
-        mappedBy = "post",
-        cascade = { CascadeType.PERSIST, CascadeType.REMOVE },
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "post")
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder

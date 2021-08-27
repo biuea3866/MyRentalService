@@ -12,5 +12,8 @@ public class RequestCreateComment {
     @NotNull(message="Comment cannot be null")
     String comment;
 
+    @NotNull(message="postId cannot be null")
+    String postId;
+
     String createdAt;
 }

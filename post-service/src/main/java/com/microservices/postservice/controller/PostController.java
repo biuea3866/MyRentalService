@@ -32,6 +32,7 @@ public class PostController {
         Environment env
     ) {
         this.postService = postService;
+        this.commentService = commentService;
         this.env = env;
     }
 
@@ -46,26 +47,41 @@ public class PostController {
 
     // Using by RequestCreate class, Write Post
     @PostMapping("/write")
-    public ResponseEntity<?> write(@ModelAttribute RequestWrite postVo) throws Exception {
+    public ResponseEntity<?> write(@RequestBody RequestWrite postVo) throws Exception {
         log.info("Post Service's Controller Layer :: Call write Method!");
+        PostDto postDto = null;
 
-        PostDto postDto = PostDto.builder()
-                                 .postType(postVo.getPostType())
-                                 .title(postVo.getTitle())
-                                 .content(postVo.getContent())
-                                 .startDate(postVo.getDate().get(0))
-                                 .endDate(postVo.getDate().get(1))
-                                 .rentalPrice(postVo.getRentalPrice())
-                                 .writer(postVo.getWriter())
-                                 .userId(postVo.getUserId())
-                                 .multipartFiles(postVo.getImages())
-                                 .build();
+        if(postVo.getPostType().equals("빌려줄게요")) {
+            postDto = PostDto.builder()
+                             .postType(postVo.getPostType())
+                             .title(postVo.getTitle())
+                             .content(postVo.getContent())
+                             .startDate(postVo.getDate().get(0))
+                             .endDate(postVo.getDate().get(1))
+                             .rentalPrice(postVo.getRentalPrice())
+                             .writer(postVo.getWriter())
+                             .userId(postVo.getUserId())
+//                                     .multipartFiles(postVo.getImages())
+                             .build();
+        } else {
+            postDto = PostDto.builder()
+                .postType(postVo.getPostType())
+                .title(postVo.getTitle())
+                .content(postVo.getContent())
+                .startDate(null)
+                .endDate(null)
+                .rentalPrice(null)
+                .writer(postVo.getWriter())
+                .userId(postVo.getUserId())
+//                                     .multipartFiles(postVo.getImages())
+                .build();
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(postService.write(postDto));
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{postId}/post")
     public ResponseEntity<?> readPostByPostId(@PathVariable("postId") String postId) {
         log.info("Post Service's Controller Layer :: Call readPostByPostId Method!");
 
@@ -81,7 +97,7 @@ public class PostController {
                                           .createdAt(post.getCreatedAt())
                                           .writer(post.getWriter())
                                           .userId(post.getUserId())
-                                          .images(post.getImages())
+//                                          .images(post.getImages())
                                           .comments(post.getComments())
                                           .status(post.getStatus())
                                           .build();
@@ -112,7 +128,7 @@ public class PostController {
                             .writer(post.getWriter())
                             .userId(post.getUserId())
                             .status(post.getStatus())
-                            .images(post.getImages())
+//                            .images(post.getImages())
                             .comments(post.getComments())
                             .build()
                 );
@@ -123,11 +139,11 @@ public class PostController {
                              .body(result);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> getAllPostsByCreate() {
+    @GetMapping("/{status}")
+    public ResponseEntity<?> getAllPostsByStatus(@PathVariable("status") String status) {
         log.info("Post Service's Controller Layer :: Call getAllPostsByCreate Method!");
 
-        Iterable<PostDto> postList = postService.getAllPostsByCreate();
+        Iterable<PostDto> postList = postService.getAllPostsByStatus(status);
         List<ResponsePost> result = new ArrayList<>();
 
         postList.forEach(post -> {
@@ -144,7 +160,7 @@ public class PostController {
                                 .writer(post.getWriter())
                                 .userId(post.getUserId())
                                 .status(post.getStatus())
-                                .images(post.getImages())
+//                                .images(post.getImages())
                                 .comments(post.getComments())
                                 .build()
                 );
@@ -155,7 +171,7 @@ public class PostController {
             .body(result);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/posts")
     public ResponseEntity<?> getPostsByUserId(@PathVariable("userId") String userId) {
         log.info("Post Service's Controller Layer :: Call getPostsByUserId Method!");
 
@@ -176,7 +192,7 @@ public class PostController {
                             .writer(post.getWriter())
                             .userId(post.getUserId())
                             .status(post.getStatus())
-                            .images(post.getImages())
+//                            .images(post.getImages())
                             .comments(post.getComments())
                             .build()
                 );
@@ -220,11 +236,11 @@ public class PostController {
                              .body(commentService.writeComment(commentDto));
     }
 
-    @DeleteMapping("/{commentId}/comments")
-    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
+    @DeleteMapping("/{id}/comments")
+    public ResponseEntity<?> deleteComment(@PathVariable("id") Long id) {
         log.info("Post Service's Controller Layer :: Call deleteComment Method!");
 
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(commentService.deleteComment(commentId));
+                             .body(commentService.deleteComment(id));
     }
 }

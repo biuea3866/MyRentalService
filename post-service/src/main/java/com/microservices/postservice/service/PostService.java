@@ -9,7 +9,7 @@ public interface PostService {
 
     Iterable<PostDto> getAllPosts();
 
-    Iterable<PostDto> getAllPostsByCreate();
+    Iterable<PostDto> getAllPostsByStatus(String status);
 
     Iterable<PostDto> getPostsByUserId(String userId);
 

@@ -47,19 +47,20 @@ public class PostServiceImpl implements PostService {
                                           .startDate(postDto.getStartDate())
                                           .endDate(postDto.getEndDate())
                                           .writer(postDto.getWriter())
+                                          .userId(postDto.getUserId())
                                           .createdAt(DateUtil.dateNow())
                                           .status("CREATE_POST")
                                           .build();
-        List<ImageEntity> images = FileUploader.parseFileInfo(
-            postDto.getMultipartFiles(),
-            postEntity
-        );
-
-        if(!images.isEmpty()) {
-            for(ImageEntity image: images) {
-                postEntity.addImage(imageRepository.save(image));
-            }
-        }
+//        List<ImageEntity> images = FileUploader.parseFileInfo(
+//            postDto.getMultipartFiles(),
+//            postEntity
+//        );
+//
+//        if(!images.isEmpty()) {
+//            for(ImageEntity image: images) {
+//                postEntity.addImage(imageRepository.save(image));
+//            }
+//        }
 
         return postRepository.save(postEntity).getId();
     }
@@ -70,12 +71,12 @@ public class PostServiceImpl implements PostService {
         log.info("Post Service's Service Layer :: Call write Method!");
 
         PostEntity postEntity = postRepository.findByPostId(postId);
-        List<ImageEntity> images = new ArrayList<>();
+//        List<ImageEntity> images = new ArrayList<>();
         List<CommentEntity> comments = new ArrayList<>();
 
-        postEntity.getImages().forEach(i -> {
-            images.add(i);
-        });
+//        postEntity.getImages().forEach(i -> {
+//            images.add(i);
+//        });
 
         postEntity.getComments().forEach(i -> {
             comments.add(i);
@@ -92,7 +93,7 @@ public class PostServiceImpl implements PostService {
                       .endDate(postEntity.getEndDate())
                       .createdAt(postEntity.getCreatedAt())
                       .writer(postEntity.getWriter())
-                      .images(images)
+//                      .images(images)
                       .comments(comments)
                       .build();
     }
@@ -117,7 +118,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+//                                .images(v.getImages())
                                 .comments(v.getComments())
                                 .build());
         });
@@ -127,27 +128,27 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public Iterable<PostDto> getAllPostsByCreate() {
+    public Iterable<PostDto> getAllPostsByStatus(String status) {
         log.info("Post Service's Service Layer :: Call getAllPostsByCreate Method!");
 
-        Iterable<PostEntity> posts = postRepository.findAllByStatus("CREATE_POST");
+        Iterable<PostEntity> posts = postRepository.findAllByStatus(status);
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
             postList.add(PostDto.builder()
-                .postId(v.getPostId())
-                .userId(v.getUserId())
-                .postType(v.getPostType())
-                .rentalPrice(v.getRentalPrice())
-                .title(v.getTitle())
-                .content(v.getContent())
-                .startDate(v.getStartDate())
-                .endDate(v.getEndDate())
-                .createdAt(v.getCreatedAt())
-                .writer(v.getWriter())
-                .images(v.getImages())
-                .comments(v.getComments())
-                .build());
+                    .postId(v.getPostId())
+                    .userId(v.getUserId())
+                    .postType(v.getPostType())
+                    .rentalPrice(v.getRentalPrice())
+                    .title(v.getTitle())
+                    .content(v.getContent())
+                    .startDate(v.getStartDate())
+                    .endDate(v.getEndDate())
+                    .createdAt(v.getCreatedAt())
+                    .writer(v.getWriter())
+    //                .images(v.getImages())
+                    .comments(v.getComments())
+                    .build());
         });
 
         return postList;
@@ -173,7 +174,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+//                                .images(v.getImages())
                                 .comments(v.getComments())
                                 .build());
         });
