@@ -2,7 +2,6 @@ package com.microservices.postservice.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.microservices.postservice.entity.CommentEntity;
-import com.microservices.postservice.entity.ImageEntity;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponsePost {
-    private String postId;
+    private Long id;
     private String userId;
     private String postType;
     private Long rentalPrice;
@@ -27,7 +26,7 @@ public class ResponsePost {
 
     @Builder
     public ResponsePost(
-        String postId,
+        Long id,
         String userId,
         String postType,
         Long rentalPrice,
@@ -41,7 +40,7 @@ public class ResponsePost {
 //        List<ImageEntity> images,
         List<CommentEntity> comments
     ) {
-        this.postId = postId;
+        this.id = id;
         this.userId = userId;
         this.postType = postType;
         this.rentalPrice = rentalPrice;

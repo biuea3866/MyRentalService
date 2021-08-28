@@ -3,9 +3,9 @@ package com.microservices.postservice.service;
 import com.microservices.postservice.dto.PostDto;
 
 public interface PostService {
-    Long write(PostDto postDto) throws Exception;
+    PostDto write(PostDto postDto) throws Exception;
 
-    PostDto readPostByPostId(String postId);
+    PostDto readPostById(Long id);
 
     Iterable<PostDto> getAllPosts();
 
@@ -13,5 +13,5 @@ public interface PostService {
 
     Iterable<PostDto> getPostsByUserId(String userId);
 
-    PostDto deletePost(String postId);
+    PostDto deletePost(Long postId);
 }

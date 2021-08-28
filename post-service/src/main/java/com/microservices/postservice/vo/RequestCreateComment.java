@@ -13,7 +13,7 @@ public class RequestCreateComment {
     String comment;
 
     @NotNull(message="postId cannot be null")
-    String postId;
+    Long postId;
 
     String createdAt;
 }

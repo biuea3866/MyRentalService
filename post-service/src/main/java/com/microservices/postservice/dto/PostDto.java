@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class PostDto {
-    private String postId;
+    private Long id;
     private String userId;
     private String postType;
     private Long rentalPrice;
@@ -27,7 +27,7 @@ public class PostDto {
 
     @Builder
     public PostDto(
-        String postId,
+        Long id,
         String userId,
         String postType,
         Long rentalPrice,
@@ -42,7 +42,7 @@ public class PostDto {
         List<CommentEntity> comments,
         List<ImageEntity> images
     ) {
-        this.postId = postId;
+        this.id = id;
         this.userId = userId;
         this.postType = postType;
         this.rentalPrice = rentalPrice;

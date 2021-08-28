@@ -16,15 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 public class PostEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="post_id")
     private Long id;
-
-    @Column(
-        name="post_id",
-        nullable = false,
-        unique = true
-    )
-    private String postId;
 
     @Column(nullable = false)
     private String userId;
@@ -47,10 +41,13 @@ public class PostEntity {
     @Column(nullable = true)
     private String endDate;
 
+    @Column(nullable = false)
     private String createdAt;
 
+    @Column(nullable = false)
     private String writer;
 
+    @Column(nullable = false)
     private String status;
 
     @OneToMany(
@@ -60,12 +57,16 @@ public class PostEntity {
     )
     private List<ImageEntity> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(
+        mappedBy = "post",
+        cascade = { CascadeType.PERSIST, CascadeType.REMOVE },
+        orphanRemoval = true
+    )
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder
     public PostEntity(
-        String postId,
+        Long id,
         String userId,
         String postType,
         Long rentalPrice,
@@ -77,7 +78,7 @@ public class PostEntity {
         String writer,
         String status
     ) {
-        this.postId = postId;
+        this.id = id;
         this.userId = userId;
         this.postType = postType;
         this.rentalPrice = rentalPrice;

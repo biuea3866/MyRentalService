@@ -49,6 +49,7 @@ public class PostController {
     @PostMapping("/write")
     public ResponseEntity<?> write(@RequestBody RequestWrite postVo) throws Exception {
         log.info("Post Service's Controller Layer :: Call write Method!");
+
         PostDto postDto = null;
 
         if(postVo.getPostType().equals("빌려줄게요")) {
@@ -65,29 +66,21 @@ public class PostController {
                              .build();
         } else {
             postDto = PostDto.builder()
-                .postType(postVo.getPostType())
-                .title(postVo.getTitle())
-                .content(postVo.getContent())
-                .startDate(null)
-                .endDate(null)
-                .rentalPrice(null)
-                .writer(postVo.getWriter())
-                .userId(postVo.getUserId())
-//                                     .multipartFiles(postVo.getImages())
-                .build();
+                             .postType(postVo.getPostType())
+                             .title(postVo.getTitle())
+                             .content(postVo.getContent())
+                             .startDate(null)
+                             .endDate(null)
+                             .rentalPrice(null)
+                             .writer(postVo.getWriter())
+                             .userId(postVo.getUserId())
+            //                                     .multipartFiles(postVo.getImages())
+                             .build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(postService.write(postDto));
-    }
-
-    @GetMapping("/{postId}/post")
-    public ResponseEntity<?> readPostByPostId(@PathVariable("postId") String postId) {
-        log.info("Post Service's Controller Layer :: Call readPostByPostId Method!");
-
-        PostDto post = postService.readPostByPostId(postId);
+        PostDto post = postService.write(postDto);
         ResponsePost result = ResponsePost.builder()
-                                          .postId(post.getPostId())
+                                          .id(post.getId())
                                           .postType(post.getPostType())
                                           .title(post.getTitle())
                                           .content(post.getContent())
@@ -97,13 +90,35 @@ public class PostController {
                                           .createdAt(post.getCreatedAt())
                                           .writer(post.getWriter())
                                           .userId(post.getUserId())
-//                                          .images(post.getImages())
+//                                        .images(post.getImages())
                                           .comments(post.getComments())
                                           .status(post.getStatus())
                                           .build();
 
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @GetMapping("/{id}/post")
+    public ResponseEntity<?> readPostById(@PathVariable("id") Long id) {
+        log.info("Post Service's Controller Layer :: Call readPostById Method!");
+
+        PostDto post = postService.readPostById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponsePost.builder()
+                                                                     .id(post.getId())
+                                                                     .postType(post.getPostType())
+                                                                     .title(post.getTitle())
+                                                                     .content(post.getContent())
+                                                                     .rentalPrice(post.getRentalPrice())
+                                                                     .startDate(post.getStartDate())
+                                                                     .endDate(post.getEndDate())
+                                                                     .createdAt(post.getCreatedAt())
+                                                                     .writer(post.getWriter())
+                                                                     .userId(post.getUserId())
+//                                                                     .images(post.getImages())
+                                                                     .comments(post.getComments())
+                                                                     .status(post.getStatus())
+                                                                     .build());
     }
 
     // Get All Posts
@@ -117,7 +132,7 @@ public class PostController {
         postList.forEach(post -> {
             result.add(
                 ResponsePost.builder()
-                            .postId(post.getPostId())
+                            .id(post.getId())
                             .postType(post.getPostType())
                             .title(post.getTitle())
                             .content(post.getContent())
@@ -135,40 +150,36 @@ public class PostController {
             }
         );
 
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping("/{status}")
     public ResponseEntity<?> getAllPostsByStatus(@PathVariable("status") String status) {
-        log.info("Post Service's Controller Layer :: Call getAllPostsByCreate Method!");
+        log.info("Post Service's Controller Layer :: Call getAllPostsByStatus Method!");
 
         Iterable<PostDto> postList = postService.getAllPostsByStatus(status);
         List<ResponsePost> result = new ArrayList<>();
 
         postList.forEach(post -> {
-                result.add(
-                    ResponsePost.builder()
-                                .postId(post.getPostId())
-                                .postType(post.getPostType())
-                                .title(post.getTitle())
-                                .content(post.getContent())
-                                .rentalPrice(post.getRentalPrice())
-                                .startDate(post.getStartDate())
-                                .endDate(post.getEndDate())
-                                .createdAt(post.getCreatedAt())
-                                .writer(post.getWriter())
-                                .userId(post.getUserId())
-                                .status(post.getStatus())
-//                                .images(post.getImages())
-                                .comments(post.getComments())
-                                .build()
-                );
+                result.add(ResponsePost.builder()
+                                       .id(post.getId())
+                                       .postType(post.getPostType())
+                                       .title(post.getTitle())
+                                       .content(post.getContent())
+                                       .rentalPrice(post.getRentalPrice())
+                                       .startDate(post.getStartDate())
+                                       .endDate(post.getEndDate())
+                                       .createdAt(post.getCreatedAt())
+                                       .writer(post.getWriter())
+                                       .userId(post.getUserId())
+                                       .status(post.getStatus())
+    //                                .images(post.getImages())
+                                       .comments(post.getComments())
+                                       .build());
             }
         );
 
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping("/{userId}/posts")
@@ -179,28 +190,25 @@ public class PostController {
         List<ResponsePost> result = new ArrayList<>();
 
         postList.forEach(post -> {
-            result.add(
-                ResponsePost.builder()
-                            .postId(post.getPostId())
-                            .postType(post.getPostType())
-                            .title(post.getTitle())
-                            .content(post.getContent())
-                            .rentalPrice(post.getRentalPrice())
-                            .startDate(post.getStartDate())
-                            .endDate(post.getEndDate())
-                            .createdAt(post.getCreatedAt())
-                            .writer(post.getWriter())
-                            .userId(post.getUserId())
-                            .status(post.getStatus())
-//                            .images(post.getImages())
-                            .comments(post.getComments())
-                            .build()
-                );
+            result.add(ResponsePost.builder()
+                                   .id(post.getId())
+                                   .postType(post.getPostType())
+                                   .title(post.getTitle())
+                                   .content(post.getContent())
+                                   .rentalPrice(post.getRentalPrice())
+                                   .startDate(post.getStartDate())
+                                   .endDate(post.getEndDate())
+                                   .createdAt(post.getCreatedAt())
+                                   .writer(post.getWriter())
+                                   .userId(post.getUserId())
+                                   .status(post.getStatus())
+    //                            .images(post.getImages())
+                                   .comments(post.getComments())
+                                   .build());
             }
         );
 
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 //    @PostMapping("/rental")
@@ -211,36 +219,31 @@ public class PostController {
 //                             .body(postService.rental(postVo));
 //    }
 
-    @PostMapping("/{postId}/delete")
-    public ResponseEntity<?> deletePost(@PathVariable("postId") String postId) {
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<?> deletePost(@PathVariable("id") Long id) {
         log.info("Post Service's Controller Layer :: Call deletePost Method!");
 
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(postService.deletePost(postId));
+        return ResponseEntity.status(HttpStatus.OK).body(postService.deletePost(id));
     }
 
     @PostMapping("/{postId}/comments")
     public ResponseEntity<?> writeComment(
-        @PathVariable("postId") String postId,
+        @PathVariable("postId") Long postId,
         @RequestBody RequestCreateComment comment
     ) {
         log.info("Post Service's Controller Layer :: Call writeComment Method!");
 
-        CommentDto commentDto = CommentDto.builder()
-                                          .postId(postId)
-                                          .writer(comment.getWriter())
-                                          .comment(comment.getComment())
-                                          .build();
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(commentService.writeComment(commentDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.writeComment(CommentDto.builder()
+                                                                                                    .postId(postId)
+                                                                                                    .writer(comment.getWriter())
+                                                                                                    .comment(comment.getComment())
+                                                                                                    .build()));
     }
 
     @DeleteMapping("/{id}/comments")
     public ResponseEntity<?> deleteComment(@PathVariable("id") Long id) {
         log.info("Post Service's Controller Layer :: Call deleteComment Method!");
 
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(commentService.deleteComment(id));
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.deleteComment(id));
     }
 }

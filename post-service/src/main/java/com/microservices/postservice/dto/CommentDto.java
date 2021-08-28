@@ -11,14 +11,14 @@ public class CommentDto {
 
     String createdAt;
 
-    String postId;
+    Long postId;
 
     @Builder
     public CommentDto(
         String writer,
         String comment,
         String createdAt,
-        String postId
+        Long postId
     ) {
         this.writer = writer;
         this.comment = comment;

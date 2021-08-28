@@ -29,7 +29,7 @@ public class CommentService {
         CommentEntity commentEntity = CommentEntity.builder()
                                                    .writer(commentDto.getWriter())
                                                    .comment(commentDto.getComment())
-                                                   .post(postRepository.findByPostId(commentDto.getPostId()))
+                                                   .post(postRepository.getOne(commentDto.getPostId()))
                                                    .createdAt(DateUtil.dateNow())
                                                    .build();
 

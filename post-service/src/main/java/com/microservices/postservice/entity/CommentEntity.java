@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CommentEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="comment_id")
     Long id;
 
@@ -33,11 +33,13 @@ public class CommentEntity {
 
     @Builder
     public CommentEntity(
+        Long id,
         String writer,
         String comment,
         String createdAt,
         PostEntity post
     ) {
+        this.id = id;
         this.writer = writer;
         this.comment = comment;
         this.createdAt = createdAt;

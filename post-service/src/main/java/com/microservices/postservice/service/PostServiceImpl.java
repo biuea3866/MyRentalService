@@ -35,11 +35,10 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public Long write(PostDto postDto) throws Exception {
+    public PostDto write(PostDto postDto) throws Exception {
         log.info("Post Service's Service Layer :: Call write Method!");
 
         PostEntity postEntity = PostEntity.builder()
-                                          .postId(UUID.randomUUID().toString())
                                           .postType(postDto.getPostType())
                                           .rentalPrice(postDto.getRentalPrice())
                                           .title(postDto.getTitle())
@@ -62,15 +61,29 @@ public class PostServiceImpl implements PostService {
 //            }
 //        }
 
-        return postRepository.save(postEntity).getId();
+        postRepository.save(postEntity);
+
+        return PostDto.builder()
+                      .id(postEntity.getId())
+                      .userId(postEntity.getUserId())
+                      .postType(postEntity.getPostType())
+                      .rentalPrice(postEntity.getRentalPrice())
+                      .title(postEntity.getTitle())
+                      .content(postEntity.getContent())
+                      .startDate(postEntity.getStartDate())
+                      .endDate(postEntity.getEndDate())
+                      .createdAt(postEntity.getCreatedAt())
+                      .writer(postEntity.getWriter())
+        //                      .images(images)
+                      .build();
     }
 
     @Transactional
     @Override
-    public PostDto readPostByPostId(String postId) {
-        log.info("Post Service's Service Layer :: Call write Method!");
+    public PostDto readPostById(Long id) {
+        log.info("Post Service's Service Layer :: Call readPostById Method!");
 
-        PostEntity postEntity = postRepository.findByPostId(postId);
+        PostEntity postEntity = postRepository.findPostById(id);
 //        List<ImageEntity> images = new ArrayList<>();
         List<CommentEntity> comments = new ArrayList<>();
 
@@ -79,11 +92,15 @@ public class PostServiceImpl implements PostService {
 //        });
 
         postEntity.getComments().forEach(i -> {
-            comments.add(i);
+            comments.add(CommentEntity.builder()
+                                      .id(i.getId())
+                                      .comment(i.getComment())
+                                      .writer(i.getWriter())
+                                      .createdAt(i.getCreatedAt())
+                                      .build());
         });
 
         return PostDto.builder()
-                      .postId(postEntity.getPostId())
                       .userId(postEntity.getUserId())
                       .postType(postEntity.getPostType())
                       .rentalPrice(postEntity.getRentalPrice())
@@ -95,6 +112,7 @@ public class PostServiceImpl implements PostService {
                       .writer(postEntity.getWriter())
 //                      .images(images)
                       .comments(comments)
+                      .status(postEntity.getStatus())
                       .build();
     }
 
@@ -107,8 +125,18 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
+            List<CommentEntity> comments = new ArrayList<>();
+
+            v.getComments().forEach(i -> {
+                comments.add(CommentEntity.builder()
+                                          .id(i.getId())
+                                          .comment(i.getComment())
+                                          .writer(i.getWriter())
+                                          .createdAt(i.getCreatedAt())
+                                          .build());
+            });
+
             postList.add(PostDto.builder()
-                                .postId(v.getPostId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
                                 .rentalPrice(v.getRentalPrice())
@@ -119,7 +147,8 @@ public class PostServiceImpl implements PostService {
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
 //                                .images(v.getImages())
-                                .comments(v.getComments())
+                                .comments(comments)
+                                .status(v.getStatus())
                                 .build());
         });
 
@@ -129,14 +158,24 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public Iterable<PostDto> getAllPostsByStatus(String status) {
-        log.info("Post Service's Service Layer :: Call getAllPostsByCreate Method!");
+        log.info("Post Service's Service Layer :: Call getAllPostsByStatus Method!");
 
         Iterable<PostEntity> posts = postRepository.findAllByStatus(status);
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
+            List<CommentEntity> comments = new ArrayList<>();
+
+            v.getComments().forEach(i -> {
+                comments.add(CommentEntity.builder()
+                                          .id(i.getId())
+                                          .comment(i.getComment())
+                                          .writer(i.getWriter())
+                                          .createdAt(i.getCreatedAt())
+                                          .build());
+            });
+
             postList.add(PostDto.builder()
-                    .postId(v.getPostId())
                     .userId(v.getUserId())
                     .postType(v.getPostType())
                     .rentalPrice(v.getRentalPrice())
@@ -147,7 +186,8 @@ public class PostServiceImpl implements PostService {
                     .createdAt(v.getCreatedAt())
                     .writer(v.getWriter())
     //                .images(v.getImages())
-                    .comments(v.getComments())
+                    .comments(comments)
+                    .status(v.getStatus())
                     .build());
         });
 
@@ -163,8 +203,18 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
+            List<CommentEntity> comments = new ArrayList<>();
+
+            v.getComments().forEach(i -> {
+                comments.add(CommentEntity.builder()
+                                          .id(i.getId())
+                                          .comment(i.getComment())
+                                          .writer(i.getWriter())
+                                          .createdAt(i.getCreatedAt())
+                                          .build());
+            });
+
             postList.add(PostDto.builder()
-                                .postId(v.getPostId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
                                 .rentalPrice(v.getRentalPrice())
@@ -175,7 +225,8 @@ public class PostServiceImpl implements PostService {
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
 //                                .images(v.getImages())
-                                .comments(v.getComments())
+                                .comments(comments)
+                                .status(v.getStatus())
                                 .build());
         });
 
@@ -184,17 +235,17 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public PostDto deletePost(String postId) {
+    public PostDto deletePost(Long id) {
         log.info("Post Service's Service Layer :: Call deletePost Method!");
 
-        PostEntity postEntity = postRepository.findPostByPostId(postId);
+        PostEntity postEntity = postRepository.findPostById(id);
 
         postEntity.setStatus("DELETE_POST");
 
         postRepository.save(postEntity);
 
         return PostDto.builder()
-                      .postId(postEntity.getPostId())
+                      .id(postEntity.getId())
                       .status(postEntity.getStatus())
                       .build();
     }

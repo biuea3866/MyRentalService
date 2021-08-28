@@ -33,12 +33,14 @@ public class ImageEntity {
 
     @Builder
     public ImageEntity(
+        Long id,
         PostEntity post,
         String orgFilename,
         String filePath,
         String fileName,
         Long fileSize
     ) {
+        this.id = id;
         this.post = post;
         this.orgFilename = orgFilename;
         this.filePath = filePath;
