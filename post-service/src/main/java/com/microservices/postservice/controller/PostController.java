@@ -145,10 +145,8 @@ public class PostController {
                             .status(post.getStatus())
 //                            .images(post.getImages())
                             .comments(post.getComments())
-                            .build()
-                );
-            }
-        );
+                            .build());
+        });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -176,8 +174,7 @@ public class PostController {
     //                                .images(post.getImages())
                                        .comments(post.getComments())
                                        .build());
-            }
-        );
+        });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
