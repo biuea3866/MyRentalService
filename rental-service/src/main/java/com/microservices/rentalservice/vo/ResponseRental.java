@@ -8,7 +8,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseRental {
     private String rentalId;
-    private String postId;
+    private Long postId;
     private Long price;
     private String owner;
     private String borrower;
@@ -19,7 +19,7 @@ public class ResponseRental {
     @Builder
     public ResponseRental(
         String rentalId,
-        String postId,
+        Long postId,
         Long price,
         String owner,
         String borrower,

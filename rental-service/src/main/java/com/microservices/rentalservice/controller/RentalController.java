@@ -68,7 +68,7 @@ public class RentalController {
     }
 
     @GetMapping("/{rentalId}/rental")
-    public ResponseEntity<?> getRentalsByRentalId(@PathVariable("rentalId") String rentalId) {
+    public ResponseEntity<?> getRentalByRentalId(@PathVariable("rentalId") String rentalId) {
         log.info("Rental Service's Controller Layer :: Call getRentalByRentalId Method!");
 
         RentalDto rentalDto = rentalService.getRentalByRentalId(rentalId);
@@ -129,5 +129,18 @@ public class RentalController {
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/{rentalId}/cancel")
+    public ResponseEntity<?> deleteRental(@PathVariable("rentalId") String rentalId) {
+        log.info("Rental Service's Controller Layer :: Call deleteRental Method!");
+
+        RentalDto rentalDto = rentalService.deleteRental(rentalId);
+
+        ResponseRental responseRental = ResponseRental.builder()
+            .rentalId(rentalDto.getRentalId())
+            .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseRental.getRentalId() + " :: Successfully delete");
     }
 }

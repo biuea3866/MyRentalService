@@ -1,26 +1,26 @@
-package com.microservices.rentalservice.vo;
+package com.microservices.postservice.vo;
 
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class RequestCreate {
+public class RequestRental {
     @NotNull(message="PostId cannot be null")
-    private Long postId;
-
-    @NotNull(message="Price cannot be null")
-    private Long price;
+    Long postId;
 
     @NotNull(message="Owner cannot be null")
-    private String owner;
+    String owner;
 
     @NotNull(message="Borrower cannot be null")
-    private String borrower;
+    String borrower;
+
+    @NotNull(message="Price cannot be null")
+    String price;
 
     @NotNull(message="StartDate cannot be null")
-    private String startDate;
+    String startDate;
 
     @NotNull(message="EndDate cannot be null")
-    private String endDate;
+    String endDate;
 }

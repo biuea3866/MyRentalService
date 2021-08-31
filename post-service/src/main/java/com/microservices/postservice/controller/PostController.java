@@ -2,9 +2,11 @@ package com.microservices.postservice.controller;
 
 import com.microservices.postservice.dto.CommentDto;
 import com.microservices.postservice.dto.PostDto;
+import com.microservices.postservice.message.KafkaProducer;
 import com.microservices.postservice.service.CommentService;
 import com.microservices.postservice.service.PostService;
 import com.microservices.postservice.vo.RequestCreateComment;
+import com.microservices.postservice.vo.RequestRental;
 import com.microservices.postservice.vo.RequestWrite;
 import com.microservices.postservice.vo.ResponsePost;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +26,19 @@ public class PostController {
     private PostService postService;
     private CommentService commentService;
     private Environment env;
+    private KafkaProducer kafkaProducer;
 
     @Autowired
     public PostController(
         PostService postService,
         CommentService commentService,
-        Environment env
+        Environment env,
+        KafkaProducer kafkaProducer
     ) {
         this.postService = postService;
         this.commentService = commentService;
         this.env = env;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @GetMapping("/health_check")
@@ -208,13 +213,14 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-//    @PostMapping("/rental")
-//    public ResponseEntity<?> rental(@RequestBody RequestRental postVo) {
-//        log.info("Post Service's Controller Layer :: Call rental Method!");
-//
-//        return ResponseEntity.status(HttpStatus.OK)
-//                             .body(postService.rental(postVo));
-//    }
+    @PostMapping("/rental")
+    public ResponseEntity<?> rental(@RequestBody RequestRental postVo) {
+        log.info("Post Service's Controller Layer :: Call rental Method!");
+
+        kafkaProducer.send("rental-topic", postVo);
+
+        return ResponseEntity.status(HttpStatus.OK).body(postVo);
+    }
 
     @PostMapping("/{id}/delete")
     public ResponseEntity<?> deletePost(@PathVariable("id") Long id) {

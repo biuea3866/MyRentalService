@@ -176,19 +176,19 @@ public class PostServiceImpl implements PostService {
             });
 
             postList.add(PostDto.builder()
-                    .userId(v.getUserId())
-                    .postType(v.getPostType())
-                    .rentalPrice(v.getRentalPrice())
-                    .title(v.getTitle())
-                    .content(v.getContent())
-                    .startDate(v.getStartDate())
-                    .endDate(v.getEndDate())
-                    .createdAt(v.getCreatedAt())
-                    .writer(v.getWriter())
-    //                .images(v.getImages())
-                    .comments(comments)
-                    .status(v.getStatus())
-                    .build());
+                                .userId(v.getUserId())
+                                .postType(v.getPostType())
+                                .rentalPrice(v.getRentalPrice())
+                                .title(v.getTitle())
+                                .content(v.getContent())
+                                .startDate(v.getStartDate())
+                                .endDate(v.getEndDate())
+                                .createdAt(v.getCreatedAt())
+                                .writer(v.getWriter())
+                //                .images(v.getImages())
+                                .comments(comments)
+                                .status(v.getStatus())
+                                .build());
         });
 
         return postList;

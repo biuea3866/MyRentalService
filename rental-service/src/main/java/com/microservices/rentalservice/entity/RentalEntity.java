@@ -19,7 +19,7 @@ public class RentalEntity {
     private String rentalId;
 
     @Column(nullable = false)
-    private String postId;
+    private Long postId;
 
     @Column(nullable = false)
     private Long price;
@@ -42,7 +42,7 @@ public class RentalEntity {
     @Builder
     public RentalEntity(
         String rentalId,
-        String postId,
+        Long postId,
         Long price,
         String owner,
         String borrower,
