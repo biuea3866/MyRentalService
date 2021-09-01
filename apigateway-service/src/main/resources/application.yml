@@ -56,6 +56,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/post-service/(?<segment>.*), /$\{segment}
 
+        - id: rental
+          uri: lb://RENTAL-SERVICE
+          predicates:
+            - Path=/rental-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/rental-service/(?<segment>.*), /$\{segment}
+
       default-filters:
         - name: GlobalFilter
           args:
@@ -72,9 +80,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-#
-#token:
-#  secret: user_token
 
 management:
   endpoints:

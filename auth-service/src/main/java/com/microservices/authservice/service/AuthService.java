@@ -7,4 +7,10 @@ public interface AuthService extends UserDetailsService {
     UserDto registerUser(UserDto userDto);
 
     UserDto getUserDetailsByEmail(String email);
+
+    UserDto getUser(String userId);
+
+    UserDto getRentalsByNickname(String nickname);
+
+    UserDto getBorrowsByNickname(String nickname);
 }

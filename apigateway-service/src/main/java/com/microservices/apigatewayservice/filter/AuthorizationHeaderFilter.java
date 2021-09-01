@@ -65,6 +65,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                           .parseClaimsJws(jwt)
                           .getBody()
                           .getSubject();
+
         } catch(Exception ex) {
             _valid = false;
         }

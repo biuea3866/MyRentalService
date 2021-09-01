@@ -1,5 +1,7 @@
 package com.microservices.authservice.service;
 
+import com.microservices.authservice.clients.PostClient;
+import com.microservices.authservice.clients.RentalClient;
 import com.microservices.authservice.dto.UserDto;
 import com.microservices.authservice.entity.UserEntity;
 import com.microservices.authservice.repository.AuthRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,14 +24,20 @@ import java.util.UUID;
 public class AuthServiceImpl implements AuthService {
     private AuthRepository authRepository;
     private BCryptPasswordEncoder passwordEncoder;
+    private PostClient postClient;
+    private RentalClient rentalClient;
 
     @Autowired
     public AuthServiceImpl(
         AuthRepository authRepository,
-        BCryptPasswordEncoder passwordEncoder
+        BCryptPasswordEncoder passwordEncoder,
+        PostClient postClient,
+        RentalClient rentalClient
     ) {
         this.authRepository = authRepository;
         this.passwordEncoder = passwordEncoder;
+        this.postClient = postClient;
+        this.rentalClient = rentalClient;
     }
 
     @Transactional
@@ -71,6 +80,45 @@ public class AuthServiceImpl implements AuthService {
                       .phoneNumber(userEntity.getPhoneNumber())
                       .userId(userEntity.getUserId())
                       .encryptedPwd(userEntity.getEncryptedPwd())
+                      .build();
+    }
+
+    @Transactional
+    @Override
+    public UserDto getUser(String userId) {
+        log.info("Auth Service's Service Layer :: Call getUser Method!");
+
+        UserEntity userEntity = authRepository.findByUserId(userId);
+
+        if(userEntity == null) throw new UsernameNotFoundException(userId);
+
+        return UserDto.builder()
+                      .email(userEntity.getEmail())
+                      .nickname(userEntity.getNickname())
+                      .phoneNumber(userEntity.getPhoneNumber())
+                      .userId(userEntity.getUserId())
+                      .encryptedPwd(userEntity.getEncryptedPwd())
+                      .posts(postClient.getPosts(userId))
+                      .build();
+    }
+
+    @Transactional
+    @Override
+    public UserDto getRentalsByNickname(String nickname) {
+        log.info("Auth Service's Service Layer :: Call getRentalsByNickname Method!");
+
+        return UserDto.builder()
+                      .rentals(rentalClient.getRentalsByOwner(nickname))
+                      .build();
+    }
+
+    @Transactional
+    @Override
+    public UserDto getBorrowsByNickname(String nickname) {
+        log.info("Auth Service's Service Layer :: Call getBorrowsByNickname Method!");
+
+        return UserDto.builder()
+                      .rentals(rentalClient.getRentalsByBorrower(nickname))
                       .build();
     }
 
