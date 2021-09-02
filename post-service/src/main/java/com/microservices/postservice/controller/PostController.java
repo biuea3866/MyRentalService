@@ -188,6 +188,8 @@ public class PostController {
     public ResponseEntity<?> getPostsByUserId(@PathVariable("userId") String userId) {
         log.info("Post Service's Controller Layer :: Call getPostsByUserId Method!");
 
+        log.info("Before receive post data");
+
         Iterable<PostDto> postList = postService.getPostsByUserId(userId);
         List<ResponsePost> result = new ArrayList<>();
 
@@ -209,6 +211,8 @@ public class PostController {
                                    .build());
             }
         );
+
+        log.info("After received post data");
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

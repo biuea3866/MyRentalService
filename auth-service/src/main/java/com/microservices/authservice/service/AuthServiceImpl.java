@@ -6,8 +6,11 @@ import com.microservices.authservice.dto.UserDto;
 import com.microservices.authservice.entity.UserEntity;
 import com.microservices.authservice.repository.AuthRepository;
 import com.microservices.authservice.util.DateUtil;
+import com.microservices.authservice.vo.ResponsePost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,18 +29,21 @@ public class AuthServiceImpl implements AuthService {
     private BCryptPasswordEncoder passwordEncoder;
     private PostClient postClient;
     private RentalClient rentalClient;
+    private CircuitBreakerFactory circuitBreakerFactory;
 
     @Autowired
     public AuthServiceImpl(
         AuthRepository authRepository,
         BCryptPasswordEncoder passwordEncoder,
         PostClient postClient,
-        RentalClient rentalClient
+        RentalClient rentalClient,
+        CircuitBreakerFactory circuitBreakerFactory
     ) {
         this.authRepository = authRepository;
         this.passwordEncoder = passwordEncoder;
         this.postClient = postClient;
         this.rentalClient = rentalClient;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     @Transactional
@@ -92,13 +98,24 @@ public class AuthServiceImpl implements AuthService {
 
         if(userEntity == null) throw new UsernameNotFoundException(userId);
 
+        log.info("Before call post-service");
+
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
+
+        List<ResponsePost> postList = circuitBreaker.run(
+            () -> postClient.getPosts(userId),
+            throwable -> new ArrayList<>()
+        );
+
+        log.info("After called post-service");
+
         return UserDto.builder()
                       .email(userEntity.getEmail())
                       .nickname(userEntity.getNickname())
                       .phoneNumber(userEntity.getPhoneNumber())
                       .userId(userEntity.getUserId())
                       .encryptedPwd(userEntity.getEncryptedPwd())
-                      .posts(postClient.getPosts(userId))
+                      .posts(postList)
                       .build();
     }
 
