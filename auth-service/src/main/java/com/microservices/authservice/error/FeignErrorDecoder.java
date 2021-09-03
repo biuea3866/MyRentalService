@@ -18,6 +18,16 @@ public class FeignErrorDecoder implements ErrorDecoder {
                         HttpStatus.valueOf(response.status()),
                         "User's posts is empty."
                     );
+                } else if(methodKey.contains("my_rentals")) {
+                    return new ResponseStatusException(
+                        HttpStatus.valueOf(response.status()),
+                        "User's rentals is empty."
+                    );
+                } else if(methodKey.contains("borrow_rentals")) {
+                    return new ResponseStatusException(
+                        HttpStatus.valueOf(response.status()),
+                        "User's borrowing is empty."
+                    );
                 }
 
                 break;

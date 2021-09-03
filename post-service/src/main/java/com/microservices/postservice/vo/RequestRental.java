@@ -16,7 +16,7 @@ public class RequestRental {
     String borrower;
 
     @NotNull(message="Price cannot be null")
-    String price;
+    Long price;
 
     @NotNull(message="StartDate cannot be null")
     String startDate;

@@ -40,10 +40,10 @@ public class KafkaConsumer {
 
         RentalEntity rentalEntity = RentalEntity.builder()
                                                 .rentalId(UUID.randomUUID().toString())
-                                                .postId(Long.parseLong((String) map.get("postId")))
+                                                .postId(Long.parseLong(String.valueOf(map.get("postId"))))
                                                 .owner((String)map.get("owner"))
                                                 .borrower((String)map.get("borrower"))
-                                                .price(Long.parseLong((String) map.get("price")))
+                                                .price(Long.parseLong(String.valueOf(map.get("price"))))
                                                 .startDate((String)map.get("startDate"))
                                                 .endDate((String)map.get("endDate"))
                                                 .createdAt(DateUtil.dateNow())

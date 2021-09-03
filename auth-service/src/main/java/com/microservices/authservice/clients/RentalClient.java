@@ -9,9 +9,9 @@ import java.util.List;
 
 @FeignClient(name="rental-service")
 public interface RentalClient {
-    @GetMapping("/{owner}/my_rentals")
+    @GetMapping("/{owner}/my_rentals_wrong")
     public List<ResponseRental> getRentalsByOwner(@PathVariable("owner") String owner);
 
-    @GetMapping("/{borrower}/borrow_rentals")
+    @GetMapping("/{borrower}/borrow_rentals_wrong")
     public List<ResponseRental> getRentalsByBorrower(@PathVariable("borrower") String borrower);
 }
