@@ -164,21 +164,21 @@ public class PostController {
         List<ResponsePost> result = new ArrayList<>();
 
         postList.forEach(post -> {
-                result.add(ResponsePost.builder()
-                                       .id(post.getId())
-                                       .postType(post.getPostType())
-                                       .title(post.getTitle())
-                                       .content(post.getContent())
-                                       .rentalPrice(post.getRentalPrice())
-                                       .startDate(post.getStartDate())
-                                       .endDate(post.getEndDate())
-                                       .createdAt(post.getCreatedAt())
-                                       .writer(post.getWriter())
-                                       .userId(post.getUserId())
-                                       .status(post.getStatus())
-    //                                .images(post.getImages())
-                                       .comments(post.getComments())
-                                       .build());
+            result.add(ResponsePost.builder()
+                                   .id(post.getId())
+                                   .postType(post.getPostType())
+                                   .title(post.getTitle())
+                                   .content(post.getContent())
+                                   .rentalPrice(post.getRentalPrice())
+                                   .startDate(post.getStartDate())
+                                   .endDate(post.getEndDate())
+                                   .createdAt(post.getCreatedAt())
+                                   .writer(post.getWriter())
+                                   .userId(post.getUserId())
+                                   .status(post.getStatus())
+//                                .images(post.getImages())
+                                   .comments(post.getComments())
+                                   .build());
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);

@@ -32,7 +32,6 @@ public class PostServiceImpl implements PostService {
         this.imageRepository = imageRepository;
     }
 
-
     @Transactional
     @Override
     public PostDto write(PostDto postDto) throws Exception {

@@ -64,6 +64,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/rental-service/(?<segment>.*), /$\{segment}
 
+        - id: message
+          uri: lb://MESSAGE-SERVICE
+          predicates:
+            - Path=/message-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/message-service/(?<segment>.*), /$\{segment}
+
       default-filters:
         - name: GlobalFilter
           args:
