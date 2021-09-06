@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palettes';
+import MyPageForm from './MyPageForm';
 
 const MyPageTemplateBlock = styled.div`
     background: ${ palette.gray[2] };
@@ -23,7 +24,7 @@ const MyPageTemplate = ({ childiren }) => {
     return(
         <MyPageTemplateBlock>
             <WhiteBox>
-                { childiren }
+                <MyPageForm />
             </WhiteBox>
         </MyPageTemplateBlock>
     );

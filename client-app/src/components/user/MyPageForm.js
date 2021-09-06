@@ -48,7 +48,7 @@ const HalfRightLine = styled.td`
     justify-content: center;
     align-items: center;
     float: left;
-    width: 50%;
+    width: 49.5%;
     height: 100px;
     border-bottom: 2px solid #dcdcdc;
     padding: 0;
