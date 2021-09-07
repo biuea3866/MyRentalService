@@ -9,6 +9,7 @@ const Button = styled.button`
     background-color: ${palette.blue[2]};
     color: #ffffff;
     border: none;
+    font-weight: bold;
     &:hover {
         width: 100%;
         height: 40px;
