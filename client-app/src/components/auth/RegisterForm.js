@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField  } from '../../modules/auth';
+import { 
+    changeField,
+    initializeForm, 
+    register 
+} from '../../modules/auth';
 import AuthForm from './AuthForm';
 import { withRouter } from 'react-router-dom';
 
 const RegisterForm = ({ history }) => {
     const dispatch = useDispatch();
-    const { form } = useSelector(({ auth }) => ({
+    const { 
+        form, 
+        auth, 
+        authError,
+    } = useSelector(({ 
+        auth,
+    }) => ({
         form: auth.register,
+        auth: auth.auth,
+        authError: auth.authError,
     })); 
-    // For changing input, handler
+
     const onChange = e => {
         const { value, name } = e.target;
 
@@ -35,9 +47,35 @@ const RegisterForm = ({ history }) => {
         } = form;
 
         if(password !== passwordConfirm) {
+            // setError
+            
             return;
         }
+
+        if([
+            email, 
+            password,
+            passwordConfirm,
+            nickname,
+            phoneNumber,
+        ].includes('')) {
+            // setError
+            return;
+        }
+
+        dispatch(register({
+            email,
+            password,
+            nickname,
+            phoneNumber,
+        }));
+
+        history.push('/');
     };
+
+    useEffect(() => {
+        dispatch(initializeForm('register'));
+    }, [dispatch]);
 
     return (
         <AuthForm
