@@ -95,4 +95,23 @@ public class AuthController {
                                                                      .rentals(userDto.getRentals())
                                                                      .build());
     }
+
+    @GetMapping("/{userId}/check")
+    public ResponseEntity<?> check(@PathVariable("userId") String userId) {
+        log.info("Auth Service's Controller Layer :: Call getMyRentals Method!");
+
+        if(userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not user");
+        }
+
+        UserDto userDto = authService.getUser(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseUser.builder()
+                                                                     .email(userDto.getEmail())
+                                                                     .nickname(userDto.getNickname())
+                                                                     .phoneNumber(userDto.getPhoneNumber())
+                                                                     .userId(userDto.getUserId())
+                                                                     .posts(userDto.getPosts())
+                                                                     .build());
+    }
 }

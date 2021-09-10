@@ -20,6 +20,14 @@ export const register = ({
     phoneNumber
 });
 
-export const getUser = ({ userId }) => client.get('/auth-service/:userId/getUser', { userId });
+export const getUser = userId => client.get(`/auth-service/${userId}/getUser`, {
+    headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))   
+    }
+});
 
-export const check = ({ user }) => client.post('/auth-service/check', { user });
+export const check = userId => client.get(`/auth-service/${userId}/check`, {
+    headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))       
+    }
+});

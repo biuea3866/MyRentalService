@@ -11,6 +11,7 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes('auth/LOGIN');
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes('auth/REGISTER');
+const [INFO, INFO_SUCCESS, INFO_FAILURE] = createRequestActionTypes('auth/INFO');
 
 export const changeField = createAction(
     CHANGE_FIELD, ({
@@ -46,12 +47,16 @@ export const register = createAction(REGISTER, ({
     phoneNumber
 }));
 
+export const info = createAction(INFO, userId => userId);
+
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
+const infoSaga = createRequestSaga(INFO, authAPI.getUser);
 
 export function* authSaga() {
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(REGISTER, registerSaga);
+    yield takeLatest(INFO, infoSaga);
 }
 
 const initialState = {
@@ -66,6 +71,7 @@ const initialState = {
         email: '',
         password: '',
     },
+    headers: null,
     auth: null,
     authError: null,
 };
@@ -81,10 +87,11 @@ const auth = handleActions(
             [form]: initialState[form],
             authError: null,
         }),
-        [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
+        [LOGIN_SUCCESS]: (state, { payload: auth, headers: headers, }) => ({
             ...state,
             authError: null,
-            auth
+            auth,
+            headers,
         }),
         [LOGIN_FAILURE]: (state, { payload: error }) => ({
             ...state,
@@ -99,6 +106,15 @@ const auth = handleActions(
             ...state,
             authError: error,
         }),
+        [INFO_SUCCESS]: (state, { payload: auth }) => ({
+            ...state,
+            authError: null,
+            auth,
+        }),
+        [INFO_FAILURE]: (state, { payload: error }) => ({
+            ...state,
+            authError: error,
+        })
     },
     initialState,
 );
