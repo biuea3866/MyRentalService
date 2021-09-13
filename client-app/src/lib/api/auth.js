@@ -20,7 +20,7 @@ export const register = ({
     phoneNumber
 });
 
-export const getUser = userId => client.get(`/auth-service/${userId}/getUser`, {
+export const getUser = userId => client.get(`/auth-service/${userId}/info`, {
     headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))   
     }

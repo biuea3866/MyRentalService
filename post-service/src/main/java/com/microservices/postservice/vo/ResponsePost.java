@@ -13,6 +13,7 @@ public class ResponsePost {
     private Long id;
     private String userId;
     private String postType;
+    private String category;
     private Long rentalPrice;
     private String title;
     private String content;
@@ -29,6 +30,7 @@ public class ResponsePost {
         Long id,
         String userId,
         String postType,
+        String category,
         Long rentalPrice,
         String title,
         String content,
@@ -43,6 +45,7 @@ public class ResponsePost {
         this.id = id;
         this.userId = userId;
         this.postType = postType;
+        this.category = category;
         this.rentalPrice = rentalPrice;
         this.title = title;
         this.content = content;

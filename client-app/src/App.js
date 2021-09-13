@@ -3,7 +3,9 @@ import { Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import MyPage from './pages/MyPage';
+import PostPage from './pages/PostPage';
 import RegisterPage from './pages/RegisterPage';
+import WritePage from './pages/WritePage';
 
 const App = () => {
     return(
@@ -15,17 +17,27 @@ const App = () => {
             />
             <Route 
                 component={ MyPage }
-                path="/user/myPage"
+                path="/user/my-account"
                 exact
             />
             <Route 
                 component={ LoginPage }
-                path="/auth/LoginPage"
+                path="/auth/login"
                 exact
             />
             <Route 
                 component={ RegisterPage }
-                path="/auth/RegisterPage"
+                path="/auth/register"
+                exact
+            />
+            <Route
+                component={ PostPage }
+                path="/posts"
+                exact
+            />
+            <Route 
+                component={ WritePage }
+                path="/posts/write"
                 exact
             />
         </>

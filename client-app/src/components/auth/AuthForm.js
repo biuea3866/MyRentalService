@@ -78,7 +78,7 @@ const AuthForm = ({
                             로그인        
                         </FullButton>
                         <BorderButton>
-                            <Link to="/auth/RegisterPage">
+                            <Link to="/auth/register">
                                 회원가입
                             </Link>
                         </BorderButton>

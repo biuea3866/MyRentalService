@@ -57,7 +57,7 @@ const HeaderTemplate = () => {
                     src={ clipboard_outline }
                 />
                 <Shortcut
-                    path="/user/myPage"
+                    path="/user/my-account"
                     src={ person_outline }
                 />
             </Nav>

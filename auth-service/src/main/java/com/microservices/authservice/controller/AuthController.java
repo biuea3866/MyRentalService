@@ -59,7 +59,7 @@ public class AuthController {
                                                .build());
     }
 
-    @GetMapping("/{userId}/getUser")
+    @GetMapping("/{userId}/info")
     public ResponseEntity<?> getUser(@PathVariable("userId") String userId) {
         log.info("Auth Service's Controller Layer :: Call getUser Method!");
 

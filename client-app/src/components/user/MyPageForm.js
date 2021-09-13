@@ -68,7 +68,7 @@ const MyPageForm = ({ history }) => {
 
     useEffect(() => {
         if(!user) {
-            history.push('/auth/LoginPage');
+            history.push('/auth/login');
         }
     }, [history, user]);
 

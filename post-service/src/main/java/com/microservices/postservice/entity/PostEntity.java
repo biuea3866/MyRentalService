@@ -26,6 +26,9 @@ public class PostEntity {
     @Column(nullable = false)
     private String postType;
 
+    @Column(nullable = false)
+    private String category;
+
     @Column(nullable = true)
     private Long rentalPrice;
 
@@ -69,6 +72,7 @@ public class PostEntity {
         Long id,
         String userId,
         String postType,
+        String category,
         Long rentalPrice,
         String title,
         String content,
@@ -81,6 +85,7 @@ public class PostEntity {
         this.id = id;
         this.userId = userId;
         this.postType = postType;
+        this.category = category;
         this.rentalPrice = rentalPrice;
         this.title = title;
         this.content = content;

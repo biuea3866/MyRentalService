@@ -12,6 +12,8 @@ public class RequestWrite {
     @NotNull(message="postType cannot be null")
     private String postType;
 
+    private String category;
+
     @NotNull(message="title cannot be null")
     @Size(min=10, message="title cannot be less than 10 characters")
     private String title;
