@@ -75,11 +75,11 @@ const AuthForm = ({
                         />
                         { error && <ErrorMessage>{ error }</ErrorMessage>}
                         <FullButton>
-                            Login        
+                            로그인        
                         </FullButton>
                         <BorderButton>
                             <Link to="/auth/RegisterPage">
-                                Sign Up
+                                회원가입
                             </Link>
                         </BorderButton>
                     </form>
@@ -130,7 +130,7 @@ const AuthForm = ({
                         />
                         { error && <ErrorMessage>{ error }</ErrorMessage>}
                         <FullButton>
-                            Sign Up
+                            가입하기
                         </FullButton>
                     </form>
                 </>

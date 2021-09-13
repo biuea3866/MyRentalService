@@ -56,6 +56,8 @@ const LoginForm = ({ history }) => {
 
     useEffect(() => {
         if(authError) {
+            setError('에러 발생!');
+            
             return;
         }
 

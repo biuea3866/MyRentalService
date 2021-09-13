@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import LogoutBox from './LogoutBox';
+import { useSelector } from 'react-redux';
 
 
 const MyPageFormBlock = styled.table`
@@ -61,60 +62,74 @@ const TextBox = styled.div`
 `;
 
 const MyPageForm = ({ history }) => {
+    const { user } = useSelector(({ user }) => ({
+        user: user.user
+    }));
+
+    useEffect(() => {
+        if(!user) {
+            history.push('/auth/LoginPage');
+        }
+    }, [history, user]);
+
     return(
-        <MyPageFormBlock>
-            <LineBlock>
-                <FullLine>
-                    <TextBox>
-                        안녕하세요 <b>nickname</b> 님!
-                    </TextBox>
-                    <LogoutBox>
-                        <LogoutButton />
-                    </LogoutBox>
-                </FullLine>
-            </LineBlock>
-            <LineBlock>
-                <HalfLeftLine>
-                    <TextBox>
-                        <Link to="#">
-                            회원 정보 수정
-                        </Link>
-                    </TextBox>
-                </HalfLeftLine>
-                <HalfRightLine>
-                    <TextBox>
-                        <Link to="#">
-                            내 게시글
-                        </Link>
-                    </TextBox>
-                </HalfRightLine>
-            </LineBlock>
-            <LineBlock>
-                <HalfLeftLine>
-                    <TextBox>
-                        <Link to="#">
-                            찜 리스트
-                        </Link>
-                    </TextBox>
-                </HalfLeftLine>
-                <HalfRightLine>
-                    <TextBox>
-                        <Link to="#">
-                            쪽지함
-                        </Link>
-                    </TextBox>
-                </HalfRightLine>
-            </LineBlock>
-            <LineBlock>
-                <FullLine>
-                    <TextBox>
-                        <Link to="#">
-                            대여 내역
-                        </Link>
-                    </TextBox>
-                </FullLine>
-            </LineBlock>
-        </MyPageFormBlock>
+        <>
+            { user &&
+                <MyPageFormBlock>
+                    <LineBlock>
+                        <FullLine>
+                            <TextBox>
+                                안녕하세요 <b>{ user.nickname }</b> 님!
+                            </TextBox>
+                            <LogoutBox>
+                                <LogoutButton />
+                            </LogoutBox>
+                        </FullLine>
+                    </LineBlock>
+                    <LineBlock>
+                        <HalfLeftLine>
+                            <TextBox>
+                                <Link to="#">
+                                    회원 정보 수정
+                                </Link>
+                            </TextBox>
+                        </HalfLeftLine>
+                        <HalfRightLine>
+                            <TextBox>
+                                <Link to="#">
+                                    내 게시글
+                                </Link>
+                            </TextBox>
+                        </HalfRightLine>
+                    </LineBlock>
+                    <LineBlock>
+                        <HalfLeftLine>
+                            <TextBox>
+                                <Link to="#">
+                                    찜 리스트
+                                </Link>
+                            </TextBox>
+                        </HalfLeftLine>
+                        <HalfRightLine>
+                            <TextBox>
+                                <Link to="#">
+                                    쪽지함
+                                </Link>
+                            </TextBox>
+                        </HalfRightLine>
+                    </LineBlock>
+                    <LineBlock>
+                        <FullLine>
+                            <TextBox>
+                                <Link to="#">
+                                    대여 내역
+                                </Link>
+                            </TextBox>
+                        </FullLine>
+                    </LineBlock>
+                </MyPageFormBlock>
+            }
+        </>
     );
 };
 

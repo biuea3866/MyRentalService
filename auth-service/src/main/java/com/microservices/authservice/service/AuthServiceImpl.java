@@ -139,6 +139,22 @@ public class AuthServiceImpl implements AuthService {
                       .build();
     }
 
+    @Transactional
+    @Override
+    public boolean checkNickname(String nickname) {
+        log.info("Auth Service's Service Layer :: Call checkNickname Method!");
+
+        return authRepository.existsByNickname(nickname);
+    }
+
+    @Transactional
+    @Override
+    public boolean checkEmail(String email) {
+        log.info("Auth Service's Service Layer :: Call checkEmail Method!");
+
+        return authRepository.existsByEmail(email);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = authRepository.findByEmail(email);

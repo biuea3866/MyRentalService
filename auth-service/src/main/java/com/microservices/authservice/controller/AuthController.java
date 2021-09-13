@@ -114,4 +114,26 @@ public class AuthController {
                                                                      .posts(userDto.getPosts())
                                                                      .build());
     }
+
+    @GetMapping("/check/nickname/{nickname}")
+    public ResponseEntity<?> checkNickname(@PathVariable("nickname") String nickname) {
+        log.info("Auth Service's Controller Layer :: Call checkNickname Method!");
+
+        if(authService.checkNickname(nickname)) {
+            return ResponseEntity.status(HttpStatus.OK).body(false);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
+
+    @GetMapping("/check/email/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
+        log.info("Auth Service's Controller Layer :: Call checkNickname Method!");
+
+        if(authService.checkEmail(email)) {
+            return ResponseEntity.status(HttpStatus.OK).body(false);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
 }

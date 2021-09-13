@@ -1,25 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
     changeField,
     initializeForm, 
-    register 
+    register,
+    checkEmail,
+    checkNickname, 
 } from '../../modules/auth';
 import AuthForm from './AuthForm';
 import { withRouter } from 'react-router-dom';
 
 const RegisterForm = ({ history }) => {
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
     const { 
         form, 
         auth, 
         authError,
+        checkedEmail,
+        checkedNickname,
     } = useSelector(({ 
         auth,
     }) => ({
         form: auth.register,
         auth: auth.auth,
         authError: auth.authError,
+        checkedEmail: auth.checkedEmail,
+        checkedNickname: auth.checkedNickname,
     })); 
 
     const onChange = e => {
@@ -46,12 +53,6 @@ const RegisterForm = ({ history }) => {
             phoneNumber, 
         } = form;
 
-        if(password !== passwordConfirm) {
-            // setError
-            
-            return;
-        }
-
         if([
             email, 
             password,
@@ -60,22 +61,58 @@ const RegisterForm = ({ history }) => {
             phoneNumber,
         ].includes('')) {
             // setError
+            setError('입력하지 않은 사항이 있습니다.');
+
             return;
         }
 
-        dispatch(register({
-            email,
-            password,
-            nickname,
-            phoneNumber,
-        }));
+        if(password !== passwordConfirm) {
+            // setError
+            setError('비밀번호가 일치하지 않습니다.');
 
-        history.push('/');
+            return;
+        }
+
+        if(checkedEmail && checkedNickname) {
+            dispatch(register({
+                email,
+                password,
+                nickname,
+                phoneNumber,
+            }));
+            
+            history.push('/');
+        }
     };
 
     useEffect(() => {
         dispatch(initializeForm('register'));
     }, [dispatch]);
+
+    useEffect(() => {
+        const { email } = form;
+
+        dispatch(checkEmail(email));
+
+        if(!checkedEmail) {
+            setError('이메일 중복!');
+
+            return;
+        }
+    }, [dispatch, checkedEmail, form]);
+
+
+    useEffect(() => {
+        const { nickname } = form;
+
+        dispatch(checkNickname(nickname));
+
+        if(!checkedNickname) {
+            setError('닉네임 중복!');
+
+            return;
+        }
+    }, [dispatch, checkedNickname, form]);
 
     return (
         <AuthForm
@@ -83,6 +120,7 @@ const RegisterForm = ({ history }) => {
             form={ form }
             onChange={ onChange }
             onSubmit={ onSubmit }
+            error={ error }
         />
     );
 };

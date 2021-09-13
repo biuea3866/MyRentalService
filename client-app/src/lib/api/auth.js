@@ -31,3 +31,8 @@ export const check = userId => client.get(`/auth-service/${userId}/check`, {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))       
     }
 });
+
+export const checkNickname = nickname => client.get(`/auth-service/check/nickname/${nickname}`);
+
+
+export const checkEmail = email => client.get(`/auth-service/check/email/${email}`);

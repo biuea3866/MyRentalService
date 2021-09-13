@@ -13,4 +13,8 @@ public interface AuthService extends UserDetailsService {
     UserDto getRentalsByNickname(String nickname);
 
     UserDto getBorrowsByNickname(String nickname);
+
+    boolean checkNickname(String nickname);
+
+    boolean checkEmail(String email);
 }
