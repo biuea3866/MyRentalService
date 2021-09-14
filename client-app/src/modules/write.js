@@ -3,7 +3,7 @@ import createRequestSaga, {
     createRequestActionTypes
 } from "../lib/createRequestSaga";
 import * as postsAPI from '../lib/api/posts';
-import { takeLatest } from "@redux-saga/core/effects";
+import { takeLatest } from "redux-saga/effects";
 
 const INITIALIZE = 'write/INITIALIZE';
 const CHANGE_FIELD = 'write/CHANGE_FIELD';
@@ -52,9 +52,9 @@ const initialState = {
     rentalPrice: null,
     title: '',
     content: '',
-    date: [],
+    date: null,
     writer: '',
-    images: [],
+    images: null,
     post: null,
     postError: null,
 };

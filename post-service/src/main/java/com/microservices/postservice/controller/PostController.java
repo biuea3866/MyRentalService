@@ -67,6 +67,7 @@ public class PostController {
                              .endDate(postVo.getDate().get(1))
                              .rentalPrice(postVo.getRentalPrice())
                              .writer(postVo.getWriter())
+                             .status("READY_RENTAL")
                              .userId(postVo.getUserId())
                              .multipartFiles(postVo.getImages())
                              .build();
@@ -79,6 +80,7 @@ public class PostController {
                              .endDate(null)
                              .rentalPrice(null)
                              .writer(postVo.getWriter())
+                             .status("REQUEST_RENTAL")
                              .userId(postVo.getUserId())
                              .multipartFiles(postVo.getImages())
                              .build();
@@ -116,21 +118,21 @@ public class PostController {
         postList.forEach(post -> {
             result.add(
                 ResponsePost.builder()
-                    .id(post.getId())
-                    .postType(post.getPostType())
-                    .category(post.getCategory())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .rentalPrice(post.getRentalPrice())
-                    .startDate(post.getStartDate())
-                    .endDate(post.getEndDate())
-                    .createdAt(post.getCreatedAt())
-                    .writer(post.getWriter())
-                    .userId(post.getUserId())
-                    .status(post.getStatus())
-                    .images(post.getImages())
-                    .comments(post.getComments())
-                    .build());
+                            .id(post.getId())
+                            .postType(post.getPostType())
+                            .category(post.getCategory())
+                            .title(post.getTitle())
+                            .content(post.getContent())
+                            .rentalPrice(post.getRentalPrice())
+                            .startDate(post.getStartDate())
+                            .endDate(post.getEndDate())
+                            .createdAt(post.getCreatedAt())
+                            .writer(post.getWriter())
+                            .userId(post.getUserId())
+                            .status(post.getStatus())
+                            .images(post.getImages())
+                            .comments(post.getComments())
+                            .build());
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);

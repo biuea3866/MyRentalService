@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -48,7 +47,7 @@ public class PostServiceImpl implements PostService {
                                           .writer(postDto.getWriter())
                                           .userId(postDto.getUserId())
                                           .createdAt(DateUtil.dateNow())
-                                          .status("CREATE_POST")
+                                          .status(postDto.getStatus())
                                           .build();
         List<ImageEntity> images = FileUploader.parseFileInfo(
             postDto.getMultipartFiles(),
@@ -123,7 +122,12 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPosts() {
         log.info("Post Service's Service Layer :: Call getAllPosts Method!");
 
-        Iterable<PostEntity> posts = postRepository.findAll();
+        List<String> exceptList = new ArrayList<>();
+
+        exceptList.add("COMPLETE_RENTAL");
+        exceptList.add("DELETE_POST");
+
+        Iterable<PostEntity> posts = postRepository.findAllByStatusNotIn(exceptList);
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
