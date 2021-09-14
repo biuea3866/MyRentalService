@@ -2,6 +2,7 @@ package com.microservices.postservice.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.microservices.postservice.entity.CommentEntity;
+import com.microservices.postservice.entity.ImageEntity;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class ResponsePost {
     private String createdAt;
     private String writer;
     private String status;
-//    private List<ImageEntity> images;
+    private List<ImageEntity> images;
     private List<CommentEntity> comments;
 
     @Builder
@@ -39,7 +40,7 @@ public class ResponsePost {
         String createdAt,
         String writer,
         String status,
-//        List<ImageEntity> images,
+        List<ImageEntity> images,
         List<CommentEntity> comments
     ) {
         this.id = id;
@@ -54,7 +55,7 @@ public class ResponsePost {
         this.createdAt = createdAt;
         this.writer = writer;
         this.status = status;
-//        this.images = images;
+        this.images = images;
         this.comments = comments;
     }
 }

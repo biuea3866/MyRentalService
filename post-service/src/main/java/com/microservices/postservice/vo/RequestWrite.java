@@ -32,5 +32,5 @@ public class RequestWrite {
     @NotNull(message="userId cannot be null")
     private String userId;
 
-//    List<MultipartFile> images;
+    List<MultipartFile> images;
 }

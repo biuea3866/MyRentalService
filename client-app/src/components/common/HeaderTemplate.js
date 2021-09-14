@@ -12,6 +12,7 @@ const HeaderBox = styled.div`
     height: 130px;
     position: fixed;
     background-color: white;
+    z-index: 2;
     box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
 `;
 

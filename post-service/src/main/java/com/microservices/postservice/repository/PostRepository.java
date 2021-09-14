@@ -9,4 +9,8 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     Iterable<PostEntity> findAllByUserId(String userId);
 
     PostEntity findPostById(Long id);
+
+    Iterable<PostEntity> findByKeywordLike(String s);
+
+    Iterable<PostEntity> findAllByCategory(String category);
 }

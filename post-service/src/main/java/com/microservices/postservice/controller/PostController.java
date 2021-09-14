@@ -68,7 +68,7 @@ public class PostController {
                              .rentalPrice(postVo.getRentalPrice())
                              .writer(postVo.getWriter())
                              .userId(postVo.getUserId())
-//                                     .multipartFiles(postVo.getImages())
+                             .multipartFiles(postVo.getImages())
                              .build();
         } else {
             postDto = PostDto.builder()
@@ -80,7 +80,7 @@ public class PostController {
                              .rentalPrice(null)
                              .writer(postVo.getWriter())
                              .userId(postVo.getUserId())
-            //                                     .multipartFiles(postVo.getImages())
+                             .multipartFiles(postVo.getImages())
                              .build();
         }
 
@@ -97,7 +97,7 @@ public class PostController {
                                           .createdAt(post.getCreatedAt())
                                           .writer(post.getWriter())
                                           .userId(post.getUserId())
-//                                        .images(post.getImages())
+                                          .images(post.getImages())
                                           .comments(post.getComments())
                                           .status(post.getStatus())
                                           .build();
@@ -105,7 +105,38 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @GetMapping("/{id}/post")
+    // Get All Posts
+    @GetMapping("/")
+    public ResponseEntity<?> getAllPosts() {
+        log.info("Post Service's Controller Layer :: Call getAllPosts Method!");
+
+        Iterable<PostDto> postList = postService.getAllPosts();
+        List<ResponsePost> result = new ArrayList<>();
+
+        postList.forEach(post -> {
+            result.add(
+                ResponsePost.builder()
+                    .id(post.getId())
+                    .postType(post.getPostType())
+                    .category(post.getCategory())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .rentalPrice(post.getRentalPrice())
+                    .startDate(post.getStartDate())
+                    .endDate(post.getEndDate())
+                    .createdAt(post.getCreatedAt())
+                    .writer(post.getWriter())
+                    .userId(post.getUserId())
+                    .status(post.getStatus())
+                    .images(post.getImages())
+                    .comments(post.getComments())
+                    .build());
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/post/{id}")
     public ResponseEntity<?> readPostById(@PathVariable("id") Long id) {
         log.info("Post Service's Controller Layer :: Call readPostById Method!");
 
@@ -123,44 +154,13 @@ public class PostController {
                                                                      .createdAt(post.getCreatedAt())
                                                                      .writer(post.getWriter())
                                                                      .userId(post.getUserId())
-//                                                                     .images(post.getImages())
+                                                                     .images(post.getImages())
                                                                      .comments(post.getComments())
                                                                      .status(post.getStatus())
                                                                      .build());
     }
 
-    // Get All Posts
-    @GetMapping("/")
-    public ResponseEntity<?> getAllPosts() {
-        log.info("Post Service's Controller Layer :: Call getAllPosts Method!");
-
-        Iterable<PostDto> postList = postService.getAllPosts();
-        List<ResponsePost> result = new ArrayList<>();
-
-        postList.forEach(post -> {
-            result.add(
-                ResponsePost.builder()
-                            .id(post.getId())
-                            .postType(post.getPostType())
-                            .category(post.getCategory())
-                            .title(post.getTitle())
-                            .content(post.getContent())
-                            .rentalPrice(post.getRentalPrice())
-                            .startDate(post.getStartDate())
-                            .endDate(post.getEndDate())
-                            .createdAt(post.getCreatedAt())
-                            .writer(post.getWriter())
-                            .userId(post.getUserId())
-                            .status(post.getStatus())
-//                            .images(post.getImages())
-                            .comments(post.getComments())
-                            .build());
-        });
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @GetMapping("/{status}")
+    @GetMapping("/posts/{status}")
     public ResponseEntity<?> getAllPostsByStatus(@PathVariable("status") String status) {
         log.info("Post Service's Controller Layer :: Call getAllPostsByStatus Method!");
 
@@ -181,7 +181,7 @@ public class PostController {
                                    .writer(post.getWriter())
                                    .userId(post.getUserId())
                                    .status(post.getStatus())
-//                                .images(post.getImages())
+                                   .images(post.getImages())
                                    .comments(post.getComments())
                                    .build());
         });
@@ -212,13 +212,73 @@ public class PostController {
                                    .writer(post.getWriter())
                                    .userId(post.getUserId())
                                    .status(post.getStatus())
-    //                            .images(post.getImages())
+                                   .images(post.getImages())
                                    .comments(post.getComments())
                                    .build());
             }
         );
 
         log.info("After received post data");
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/posts/keyword/{keyword}")
+    public ResponseEntity<?> getPostsByKeyword(@PathVariable("keyword") String keyword) {
+        log.info("Post Service's Controller Layer :: Call getPostsByKeyword Method!");
+
+        Iterable<PostDto> postList = postService.getPostsByKeyword(keyword);
+        List<ResponsePost> result = new ArrayList<>();
+
+        postList.forEach(post -> {
+                result.add(ResponsePost.builder()
+                                       .id(post.getId())
+                                       .postType(post.getPostType())
+                                       .category(post.getCategory())
+                                       .title(post.getTitle())
+                                       .content(post.getContent())
+                                       .rentalPrice(post.getRentalPrice())
+                                       .startDate(post.getStartDate())
+                                       .endDate(post.getEndDate())
+                                       .createdAt(post.getCreatedAt())
+                                       .writer(post.getWriter())
+                                       .userId(post.getUserId())
+                                       .status(post.getStatus())
+                                       .images(post.getImages())
+                                       .comments(post.getComments())
+                                       .build());
+               }
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/posts/category/{category}")
+    public ResponseEntity<?> getPostsByCategory(@PathVariable("category") String category) {
+        log.info("Post Service's Controller Layer :: Call getPostsByCategory Method!");
+
+        Iterable<PostDto> postList = postService.getPostsByCategory(category);
+        List<ResponsePost> result = new ArrayList<>();
+
+        postList.forEach(post -> {
+                result.add(ResponsePost.builder()
+                                       .id(post.getId())
+                                       .postType(post.getPostType())
+                                       .category(post.getCategory())
+                                       .title(post.getTitle())
+                                       .content(post.getContent())
+                                       .rentalPrice(post.getRentalPrice())
+                                       .startDate(post.getStartDate())
+                                       .endDate(post.getEndDate())
+                                       .createdAt(post.getCreatedAt())
+                                       .writer(post.getWriter())
+                                       .userId(post.getUserId())
+                                       .status(post.getStatus())
+                                       .images(post.getImages())
+                                       .comments(post.getComments())
+                                       .build());
+            }
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

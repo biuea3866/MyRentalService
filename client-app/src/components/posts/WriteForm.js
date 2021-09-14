@@ -5,9 +5,11 @@ import palette from "../../lib/styles/palettes";
 import RadioForm from "../common/RadioForm";
 import RadioItem from "../common/RadioItem";
 import ImageUploader from 'react-images-upload'
+import Select from 'react-select';
 import Input from "../common/Input";
 import { RangeDatePicker } from 'react-google-flight-datepicker';
 import 'react-google-flight-datepicker/dist/main.css';
+import { useSelector } from "react-redux";
 
 const WriteFormBlock = styled(Responsive)`
     padding-top: 5rem;
@@ -50,8 +52,17 @@ const ErrorMessage = styled.div`
     margin-top: 1rem;
 `;
 
-const WriteForm = ({ onChangeField, onDrop, onUpdate, type }) => {
-
+const WriteForm = ({ 
+    onChangeField,
+    onDrop, 
+    onUpdate, 
+    onSelect, 
+    options,
+    option,
+    type 
+}) => {
+    const { postError } = useSelector(({ write }) => ({ postError: write.postError }));
+ 
     return(
         <>
             { 
@@ -89,6 +100,7 @@ const WriteForm = ({ onChangeField, onDrop, onUpdate, type }) => {
                             onChange={ onChangeField }
                         />
                     </form>
+                    { postError && <ErrorMessage>에러 발생</ErrorMessage> }
                 </WriteFormBlock> :
                 <WriteFormBlock>
                     <form encType="multipart/form-data">
@@ -110,6 +122,12 @@ const WriteForm = ({ onChangeField, onDrop, onUpdate, type }) => {
                                 />
                             </RadioForm>
                         </PostTypeArea>
+                        <Select 
+                            onChange={ onSelect }
+                            options={ options }
+                            value={ option }
+                            placeholder="카테고리를 정해주세요"
+                        />
                         <TitleInput 
                             autoComplete="title"
                             name="title"
@@ -144,6 +162,7 @@ const WriteForm = ({ onChangeField, onDrop, onUpdate, type }) => {
                             withPreview={ true }
                         />
                     </form>
+                    { postError && <ErrorMessage>에러 발생</ErrorMessage> }
                 </WriteFormBlock>
             }
         </>

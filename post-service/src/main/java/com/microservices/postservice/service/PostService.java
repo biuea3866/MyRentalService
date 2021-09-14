@@ -14,4 +14,8 @@ public interface PostService {
     Iterable<PostDto> getPostsByUserId(String userId);
 
     PostDto deletePost(Long postId);
+
+    Iterable<PostDto> getPostsByKeyword(String keyword);
+
+    Iterable<PostDto> getPostsByCategory(String category);
 }
