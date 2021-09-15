@@ -72,33 +72,29 @@ const WriteForm = ({
                         <form>
                             <PostTypeArea>
                                 <RadioForm>
-                                    <RadioItem 
-                                        id="postBorrow"
-                                        name="type"
-                                        value="빌려주세요"
-                                        for="postBorrow"
-                                        onChange={ onChangeField }
+                                    <RadioItem id="postBorrow"
+                                               name="type"
+                                               value="빌려주세요"
+                                               for="postBorrow"
+                                               onChange={ onChangeField }
                                     />
-                                    <RadioItem 
-                                        id="postRental"
-                                        name="type"
-                                        value="빌려줄게요"
-                                        for="postRental"
-                                        onChange={ onChangeField }
+                                    <RadioItem id="postRental"
+                                               name="type"
+                                               value="빌려줄게요"
+                                               for="postRental"
+                                               onChange={ onChangeField }
                                     />
                                 </RadioForm>
                             </PostTypeArea>
-                            <TitleInput 
-                                autoComplete="title"
-                                name="title"
-                                placeholder="게시글 제목을 작성해주세요"
-                                onChange={ onChangeField }
+                            <TitleInput autoComplete="title"
+                                        name="title"
+                                        placeholder="게시글 제목을 작성해주세요"
+                                        onChange={ onChangeField }
                             />
-                            <ContentInput 
-                                autoComplete="content"
-                                name="content"
-                                placeholder="게시글 내용을 작성해주세요"
-                                onChange={ onChangeField }
+                            <ContentInput autoComplete="content"
+                                          name="content"
+                                          placeholder="게시글 내용을 작성해주세요"
+                                          onChange={ onChangeField }
                             />
                         </form>
                         { error && <ErrorMessage>{ error }</ErrorMessage> }
@@ -113,67 +109,58 @@ const WriteForm = ({
                         <form encType="multipart/form-data">
                             <PostTypeArea>
                                 <RadioForm>
-                                    <RadioItem 
-                                        id="postBorrow"
-                                        name="type"
-                                        value="빌려주세요"
-                                        for="postBorrow"
-                                        onChange={ onChangeField }
+                                    <RadioItem id="postBorrow"
+                                               name="type"
+                                               value="빌려주세요"
+                                               for="postBorrow"
+                                               onChange={ onChangeField }
                                     />
-                                    <RadioItem 
-                                        id="postRental"
-                                        name="type"
-                                        value="빌려줄게요"
-                                        for="postRental"
-                                        onChange={ onChangeField }
+                                    <RadioItem id="postRental"
+                                               name="type"
+                                               value="빌려줄게요"
+                                               for="postRental"
+                                               onChange={ onChangeField }
                                     />
                                 </RadioForm>
                             </PostTypeArea>
-                            <Select 
-                                onChange={ onSelect }
-                                options={ options }
-                                value={ option }
-                                placeholder="카테고리를 정해주세요"
+                            <Select onChange={ onSelect }
+                                    options={ options }
+                                    value={ option }
+                                    placeholder="카테고리를 정해주세요"
                             />
-                            <TitleInput 
-                                autoComplete="title"
-                                name="title"
-                                placeholder="게시글 제목을 작성해주세요"
-                                onChange={ onChangeField }
+                            <TitleInput autoComplete="title"
+                                        name="title"
+                                        placeholder="게시글 제목을 작성해주세요"
+                                        onChange={ onChangeField }
                             />
-                            <ContentInput 
-                                autoComplete="content"
-                                name="content"
-                                placeholder="게시글 내용을 작성해주세요"
-                                onChange={ onChangeField }
+                            <ContentInput autoComplete="content"
+                                          name="content"
+                                          placeholder="게시글 내용을 작성해주세요"
+                                          onChange={ onChangeField }
                             />
-                            <Input 
-                                autoComplete="rentalPrice"
-                                name="rentalPrice"
-                                placeholder="가격을 입력해주세요"
-                                onChange={ onChangeField }
+                            <Input autoComplete="rentalPrice"
+                                   name="rentalPrice"
+                                   placeholder="가격을 입력해주세요"
+                                   onChange={ onChangeField }
                             />
-                            <RangeDatePicker 
-                                onChange={ onUpdate }
-                                startDatePlaceholder="시작 날짜"
-                                endDatePlaceholder="종료 날짜"
-                                disabled={false}
+                            <RangeDatePicker onChange={ onUpdate }
+                                             startDatePlaceholder="시작 날짜"
+                                             endDatePlaceholder="종료 날짜"
+                                             disabled={false}
                             />
-                            <ImageUploader
-                                withIcon={ true }
-                                buttonText='이미지를 선택해주세요'
-                                onChange={ onDrop }
-                                name="images"
-                                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                                maxFileSize={ 5242880 }
-                                withPreview={ true }
+                            <ImageUploader withIcon={ true }
+                                           buttonText='이미지를 선택해주세요'
+                                           onChange={ onDrop }
+                                           name="images"
+                                           imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                           maxFileSize={ 5242880 }
+                                           withPreview={ true }
                             />
                         </form>
                         { error && <ErrorMessage>{ error }</ErrorMessage> }
                     </WriteFormBlock>
-                    <WriteButtonContainer 
-                        error={ error }
-                        setError={ setError }
+                    <WriteButtonContainer error={ error }
+                                          setError={ setError }
                     />
                 </>
             }

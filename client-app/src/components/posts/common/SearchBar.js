@@ -10,10 +10,9 @@ const SearchBarArea = styled.div`
 const SearchBar = () => {
     return(
         <SearchBarArea>
-            <Input 
-                name="searchBar"
-                type="text"
-                placeholder="키워드를 입력해주세요"
+            <Input name="searchBar"
+                   type="text"
+                   placeholder="키워드를 입력해주세요"
             />
         </SearchBarArea>
     );

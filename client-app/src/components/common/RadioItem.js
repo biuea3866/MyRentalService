@@ -29,17 +29,15 @@ const RadioLabel = styled.label`
 const RadioItem = ({ id, name, value, onChange }) => {
     return(
         <>
-            <RadioItems 
-                type="radio"
-                id={ id }
-                name={ name }
-                onChange={ onChange }
-                value={ value }
+            <RadioItems type="radio"
+                        id={ id }
+                        name={ name }
+                        onChange={ onChange }
+                        value={ value }
             />
-            <RadioLabel
-                for={ id }
-                onChange={ onChange }
-                value={ value }
+            <RadioLabel for={ id }
+                        onChange={ onChange }
+                        value={ value }
             >
                 { value }
             </RadioLabel>

@@ -58,20 +58,18 @@ const AuthForm = ({
                         오신 것을 환영합니다!
                     </Header>
                     <form onSubmit={ onSubmit }>
-                        <Input 
-                            autoComplete="email"
-                            name="email"
-                            placeholder="E-mail"
-                            onChange={ onChange }
-                            value={ form.email }
+                        <Input autoComplete="email"
+                               name="email"
+                               placeholder="E-mail"
+                               onChange={ onChange }
+                               value={ form.email }
                         />
-                        <Input 
-                            autoComplete="new-password"
-                            name="password"
-                            placeholder="Password"
-                            type="password"
-                            onChange={ onChange }
-                            value={ form.password }
+                        <Input autoComplete="new-password"
+                               name="password"
+                               placeholder="Password"
+                               type="password"
+                               onChange={ onChange }
+                               value={ form.password }
                         />
                         { error && <ErrorMessage>{ error }</ErrorMessage>}
                         <FullButton>
@@ -91,42 +89,37 @@ const AuthForm = ({
                         처음 오셨군요!
                     </Header>
                     <form onSubmit={ onSubmit }>
-                        <Input 
-                            autoComplete="email"
-                            name="email"
-                            placeholder="이메일을 입력해주세요"
-                            onChange={ onChange }
-                            value={ form.email }
+                        <Input autoComplete="email"
+                               name="email"
+                               placeholder="이메일을 입력해주세요"
+                               onChange={ onChange }
+                               value={ form.email }
                         />
-                        <Input 
-                            autoComplete="new-password"
-                            name="password"
-                            placeholder="비밀번호를 입력해주세요"
-                            type="password"
-                            onChange={ onChange }
-                            value={ form.password }
+                        <Input autoComplete="new-password"
+                               name="password"
+                               placeholder="비밀번호를 입력해주세요"
+                               type="password"
+                               onChange={ onChange }
+                               value={ form.password }
                         />
-                        <Input 
-                            autoComplete="new-password"
-                            name="passwordConfirm"
-                            placeholder="비밀번호를 재입력해주세요"
-                            type="password"
-                            onChange={ onChange }
-                            value={ form.passwordConfirm }
+                        <Input autoComplete="new-password"
+                               name="passwordConfirm"
+                               placeholder="비밀번호를 재입력해주세요"
+                               type="password"
+                               onChange={ onChange }
+                               value={ form.passwordConfirm }
                         />
-                        <Input 
-                            autoComplete="nickname"
-                            name="nickname"
-                            placeholder="닉네임을 입력해주세요"
-                            onChange={ onChange }
-                            value={ form.nickname }
+                        <Input autoComplete="nickname"
+                               name="nickname"
+                               placeholder="닉네임을 입력해주세요"
+                               onChange={ onChange }
+                               value={ form.nickname }
                         />
-                        <Input 
-                            autoComplete="phoneNumber"
-                            name="phoneNumber"
-                            placeholder="'-'를 제외하고 핸드폰 번호를 입력해주세요"
-                            onChange={ onChange }
-                            value={ form.phoneNumber }
+                        <Input autoComplete="phoneNumber"
+                               name="phoneNumber"
+                               placeholder="'-'를 제외하고 핸드폰 번호를 입력해주세요"
+                               onChange={ onChange }
+                               value={ form.phoneNumber }
                         />
                         { error && <ErrorMessage>{ error }</ErrorMessage>}
                         <FullButton>

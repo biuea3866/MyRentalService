@@ -49,17 +49,14 @@ const HeaderTemplate = () => {
                 </Link>
             </Title>
             <Nav>
-                <Shortcut
-                    path="/"
-                    src={ home_outline }
+                <Shortcut path="/"
+                          src={ home_outline }
                 />
-                <Shortcut
-                    path="/posts"
-                    src={ clipboard_outline }
+                <Shortcut path="/posts"
+                          src={ clipboard_outline }
                 />
-                <Shortcut
-                    path="/user/my-account"
-                    src={ person_outline }
+                <Shortcut path="/user/my-account"
+                          src={ person_outline }
                 />
             </Nav>
         </HeaderBox>

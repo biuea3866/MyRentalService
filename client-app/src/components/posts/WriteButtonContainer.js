@@ -107,9 +107,8 @@ const WriteButtonContainer = ({ history, error, setError }) => {
     }, [history, post]);
 
     return (
-        <WriteButton
-            onPublish={ onPublish }
-            onCancel={ onCancel }
+        <WriteButton onPublish={ onPublish }
+                     onCancel={ onCancel }
         />
     );
 };

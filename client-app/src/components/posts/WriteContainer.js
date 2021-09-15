@@ -80,14 +80,13 @@ const WriteContainer = () => {
     }
 
     return (
-        <WriteForm 
-            onChangeField={ onChangeField }
-            onDrop={ onDrop }
-            onUpdate={ onUpdate }
-            onSelect={ onSelect }
-            options={ options } 
-            option={ option }
-            type={ type }
+        <WriteForm onChangeField={ onChangeField }
+                   onDrop={ onDrop }
+                   onUpdate={ onUpdate }
+                   onSelect={ onSelect }
+                   options={ options } 
+                   option={ option }
+                   type={ type }
         />
     );
 };

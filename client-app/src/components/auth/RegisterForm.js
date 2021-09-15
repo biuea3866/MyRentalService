@@ -14,14 +14,10 @@ const RegisterForm = ({ history }) => {
     const [error, setError] = useState('');
     const dispatch = useDispatch();
     const { 
-        form, 
-        auth, 
-        authError,
+        form,
         checkedEmail,
         checkedNickname,
-    } = useSelector(({ 
-        auth,
-    }) => ({
+    } = useSelector(({ auth }) => ({
         form: auth.register,
         auth: auth.auth,
         authError: auth.authError,
@@ -32,13 +28,11 @@ const RegisterForm = ({ history }) => {
     const onChange = e => {
         const { value, name } = e.target;
 
-        dispatch(
-            changeField({
-                form: 'register',
-                key: name,
-                value
-            })
-        );
+        dispatch(changeField({
+            form: 'register',
+            key: name,
+            value
+        }));
     };
 
     // Handler that registers form
@@ -96,8 +90,6 @@ const RegisterForm = ({ history }) => {
 
         if(!checkedEmail) {
             setError('이메일 중복!');
-
-            return;
         }
     }, [dispatch, checkedEmail, form]);
 
@@ -109,18 +101,15 @@ const RegisterForm = ({ history }) => {
 
         if(!checkedNickname) {
             setError('닉네임 중복!');
-
-            return;
         }
     }, [dispatch, checkedNickname, form]);
 
     return (
-        <AuthForm
-            type='register'
-            form={ form }
-            onChange={ onChange }
-            onSubmit={ onSubmit }
-            error={ error }
+        <AuthForm type='register'
+                  form={ form }
+                  onChange={ onChange }
+                  onSubmit={ onSubmit }
+                  error={ error }
         />
     );
 };

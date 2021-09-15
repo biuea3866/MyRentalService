@@ -13,7 +13,16 @@ import AuthForm from './AuthForm';
 const LoginForm = ({ history }) => {
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
-    const { form, auth, authError, user, headers } = useSelector(({ auth, user }) => ({
+    const { 
+        form, 
+        auth, 
+        authError,
+        user, 
+        headers 
+    } = useSelector(({ 
+        auth, 
+        user 
+    }) => ({
         form: auth.login,
         auth: auth.auth,
         authError: auth.authError,
@@ -27,13 +36,11 @@ const LoginForm = ({ history }) => {
             name 
         } = e.target;
 
-        dispatch(
-            changeField({
-                form: 'login',
-                key: name,
-                value
-            })
-        );
+        dispatch(changeField({
+            form: 'login',
+            key: name,
+            value
+        }));
     };
 
     const onSubmit = e => {
@@ -94,12 +101,11 @@ const LoginForm = ({ history }) => {
     }, [dispatch, headers, history, auth]);
 
     return (
-        <AuthForm
-            type='login'
-            form={ form }
-            onChange={ onChange }
-            onSubmit={ onSubmit }
-            error={ error }
+        <AuthForm type='login'
+                  form={ form }
+                  onChange={ onChange }
+                  onSubmit={ onSubmit }
+                  error={ error }
         />
     );
 };

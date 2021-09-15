@@ -127,18 +127,15 @@ const PostViewer = ({
                 // post.type === '빌려줄게요' &&
                 <PostNav>
                     <MessageArea>
-                        <StyledShorcut
-                            path='/messages'
-                            src={ paper_plane_outline }
+                        <StyledShorcut path='/messages'
+                                       src={ paper_plane_outline }
                         />
                     </MessageArea>
                     <RentalArea>
                         <Link to={{
                                 pathname: '/rentals',
-                                state: {
-                                    post: post
-                                }}
-                            }
+                                state: { post: post }
+                            }}
                         >
                             <RentalButton>
                                 빌리기

@@ -21,10 +21,9 @@ const PostViewerContainer = ({ match }) => {
         };
     }, [dispatch, postId]);
 
-    return <PostViewer 
-                post={ post } 
-                loading={ loading } 
-                error={ error } 
+    return <PostViewer post={ post } 
+                       loading={ loading } 
+                       error={ error } 
             />;
 };
 
