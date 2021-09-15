@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import MyPage from './pages/MyPage';
+import PostDetailPage from './pages/PostDetailPage';
 import PostPage from './pages/PostPage';
 import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
@@ -39,6 +40,10 @@ const App = () => {
                 component={ WritePage }
                 path="/posts/write"
                 exact
+            />
+            <Route 
+                component={ PostDetailPage }
+                path="/posts/post/:postId"
             />
         </>
     );
