@@ -52,7 +52,7 @@ public class PostController {
 
     // Using by RequestCreate class, Write Post
     @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody RequestWrite postVo) throws Exception {
+    public ResponseEntity<?> write(@ModelAttribute RequestWrite postVo) throws Exception {
         log.info("Post Service's Controller Layer :: Call write Method!");
 
         PostDto postDto = null;

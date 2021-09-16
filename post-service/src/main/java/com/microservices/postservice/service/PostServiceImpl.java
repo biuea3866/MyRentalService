@@ -54,13 +54,13 @@ public class PostServiceImpl implements PostService {
             postEntity
         );
 
+        postRepository.save(postEntity);
+
         if(!images.isEmpty()) {
-            for(ImageEntity image: images) {
+            for (ImageEntity image : images) {
                 postEntity.addImage(imageRepository.save(image));
             }
         }
-
-        postRepository.save(postEntity);
 
         return PostDto.builder()
                       .id(postEntity.getId())
@@ -264,7 +264,7 @@ public class PostServiceImpl implements PostService {
     public Iterable<PostDto> getPostsByKeyword(String keyword) {
         log.info("Post Service's Service Layer :: Call getPostsByKeyword Method!");
 
-        Iterable<PostEntity> posts = postRepository.findByKeywordLike('%' + keyword + '%');
+        Iterable<PostEntity> posts = postRepository.findByKeywordLike(keyword);
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
@@ -304,7 +304,14 @@ public class PostServiceImpl implements PostService {
     public Iterable<PostDto> getPostsByCategory(String category) {
         log.info("Post Service's Service Layer :: Call getPostsByCategory Method!");
 
-        Iterable<PostEntity> posts = postRepository.findAllByCategory(category);
+        ArrayList<String> exceptList = new ArrayList<>();
+        exceptList.add("COMPLETE_RENTAL");
+        exceptList.add("DELETE_POST");
+
+        Iterable<PostEntity> posts = postRepository.findAllByCategory(
+            category,
+            exceptList
+        );
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {

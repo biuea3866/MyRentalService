@@ -8,7 +8,7 @@ const WriteButtonContainer = ({ history, error, setError }) => {
     const dispatch = useDispatch();
     const {
         userId,
-        type,
+        postType,
         category,
         rentalPrice,
         title,
@@ -20,7 +20,7 @@ const WriteButtonContainer = ({ history, error, setError }) => {
         postError,
     } = useSelector(({ write }) => ({
         userId: write.userId,
-        type: write.type,
+        postType: write.postType,
         category: write.category,
         rentalPrice: write.rentalPrice,
         title: write.title,
@@ -45,31 +45,31 @@ const WriteButtonContainer = ({ history, error, setError }) => {
             return;
         }
 
-        if(category === '' && type === '빌려줄게요') {
+        if(category === '' && postType === '빌려줄게요') {
             setError('카테고리를 지정해주세요');
 
             return;
         }
 
-        if(rentalPrice === null && type === '빌려줄게요') {
+        if(rentalPrice === null && postType === '빌려줄게요') {
             setError('가격을 입력해주세요');
 
             return;
         }
 
-        if(category === '' && type === '빌려줄게요') {
+        if(category === '' && postType === '빌려줄게요') {
             setError('카테고리를 지정해주세요');
 
             return;
         }
 
-        if(date === null && type === '빌려줄게요') {
+        if(date === null && postType === '빌려줄게요') {
             setError('날짜를 정해주세요');
 
             return;
         }
 
-        if(images === null && type === '빌려줄게요') {
+        if(images === null && postType === '빌려줄게요') {
             setError('이미지를 넣어주세요');
 
             return;
@@ -80,10 +80,10 @@ const WriteButtonContainer = ({ history, error, setError }) => {
 
             return;
         }
-        
+
         dispatch(writePost({
             userId,
-            type,
+            postType,
             category,
             rentalPrice,
             title,
@@ -92,6 +92,8 @@ const WriteButtonContainer = ({ history, error, setError }) => {
             writer,
             images,
         }));
+
+        history.push('/posts');
     };
 
     const onCancel = () => {
@@ -99,12 +101,6 @@ const WriteButtonContainer = ({ history, error, setError }) => {
 
         history.goBack();
     };
-
-    useEffect(() => {
-        if(post) {
-            history.onPublish("/posts");
-        }
-    }, [history, post]);
 
     return (
         <WriteButton onPublish={ onPublish }

@@ -2,7 +2,7 @@ import client from './client';
 
 export const write = ({
     userId,
-    type,
+    postType,
     category,
     title,
     content,
@@ -11,11 +11,11 @@ export const write = ({
     writer,
     images
 }) => {
-    if(type === '빌려주세요') {
+    if(postType === '빌려주세요') {
         const formData = new FormData();
 
         formData.append('userId', userId);
-        formData.append('type', type);
+        formData.append('postType', postType);
         formData.append('title', title);
         formData.append('content', content);
         formData.append('writer', writer);
@@ -27,7 +27,7 @@ export const write = ({
         formData.append('userId', userId);
         formData.append('category', category);
         formData.append('images', images);
-        formData.append('type', type);
+        formData.append('postType', postType);
         formData.append('title', title);
         formData.append('content', content);
         formData.append('rentalPrice', Number(rentalPrice));
@@ -37,7 +37,8 @@ export const write = ({
         
         client.post('/post-service/write', formData);
     }
-}
+};
+
 export const readAllPosts = () => client.get('/post-service');
 
 export const readPostsByStatus = status => client.get(`/post-service/posts/status/${status}`)
@@ -52,6 +53,13 @@ export const readPostsByKeyword = keyword => client.get(`/post-service/keyword/$
 
 export const deletePost = id => client.post(`/post-service/${id}/delete`);
 
-export const writeComment = ({ id, comment }) => client.post(`/post-service/${id}/comments`, comment);
+export const writeComment = ({ 
+    id,
+    writer, 
+    comment, 
+}) => client.post(`/post-service/${id}/comments`, {
+    writer, 
+    comment
+});
 
 export const deleteComment = id => client.delete(`/post-service/${id}/comments`); 

@@ -8,8 +8,8 @@ const WriteContainer = () => {
     const { user } = useSelector(({ user }) => ({
         user: user.user,
     }));
-    const { type } = useSelector(({ write }) => ({
-        type: write.type,
+    const { postType } = useSelector(({ write }) => ({
+        postType: write.postType,
     }));
 
     const onDrop = (pictures, urls) => {
@@ -86,7 +86,7 @@ const WriteContainer = () => {
                    onSelect={ onSelect }
                    options={ options } 
                    option={ option }
-                   type={ type }
+                   postType={ postType }
         />
     );
 };

@@ -20,7 +20,7 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
 }));
 export const writePost = createAction(WRITE_POST, ({
     userId,
-    type,
+    postType,
     category,
     rentalPrice,
     title,
@@ -30,7 +30,7 @@ export const writePost = createAction(WRITE_POST, ({
     images
 }) => ({
     userId,
-    type,
+    postType,
     category,
     rentalPrice,
     title,
@@ -47,7 +47,7 @@ export function* writeSaga() {
 
 const initialState = {
     userId: '',
-    type: '',
+    postType: '',
     category: '',
     rentalPrice: null,
     title: '',

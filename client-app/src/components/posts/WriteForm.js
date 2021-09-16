@@ -59,27 +59,27 @@ const WriteForm = ({
     onSelect, 
     options,
     option,
-    type 
+    postType 
 }) => {
     const [error, setError] = useState('');
 
     return(
         <>
             { 
-                type === '빌려주세요' ? 
+                postType === '빌려주세요' ? 
                 <>
                     <WriteFormBlock>
                         <form>
                             <PostTypeArea>
                                 <RadioForm>
                                     <RadioItem id="postBorrow"
-                                               name="type"
+                                               name="postType"
                                                value="빌려주세요"
                                                for="postBorrow"
                                                onChange={ onChangeField }
                                     />
                                     <RadioItem id="postRental"
-                                               name="type"
+                                               name="postType"
                                                value="빌려줄게요"
                                                for="postRental"
                                                onChange={ onChangeField }
@@ -110,13 +110,13 @@ const WriteForm = ({
                             <PostTypeArea>
                                 <RadioForm>
                                     <RadioItem id="postBorrow"
-                                               name="type"
+                                               name="postType"
                                                value="빌려주세요"
                                                for="postBorrow"
                                                onChange={ onChangeField }
                                     />
                                     <RadioItem id="postRental"
-                                               name="type"
+                                               name="postType"
                                                value="빌려줄게요"
                                                for="postRental"
                                                onChange={ onChangeField }

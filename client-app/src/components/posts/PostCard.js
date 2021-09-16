@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palettes';
 
 const PostCardBlock = styled.div`
-    display: flex;
-    flex-direction: column;
     background-color: white;
     width: 400px;
     height: 300px;
@@ -17,7 +16,10 @@ const CardTitle = styled.div`
     float: left;
     width: 400px;
     height: 50px;
-    text-align: center;
+    overflow: hidden;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
 `;
 
 const CardImage = styled.img`
@@ -28,8 +30,15 @@ const CardImage = styled.img`
 
 const CardNickname = styled.div`
     float: left;
-    width: 400px;
-    text-align: center;
+    width: 300px;
+    text-align: left;
+    padding-left: 10px;
+`;
+
+const CardDate = styled.div`
+    float: left;
+    width: 90px;
+    color: ${ palette.gray[6] }
 `;
 
 const PostCard = ({ item, i }) => {
@@ -45,6 +54,9 @@ const PostCard = ({ item, i }) => {
                 <CardNickname>
                     { item.nickname }
                 </CardNickname>
+                <CardDate>
+                    { item.createdAt }
+                </CardDate>
             </PostCardBlock>
         </Link>
     );

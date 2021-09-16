@@ -1,6 +1,7 @@
 package com.microservices.postservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Data;
@@ -54,17 +55,21 @@ public class PostEntity {
     private String status;
 
     @OneToMany(
+        fetch = FetchType.LAZY,
         mappedBy = "post",
         cascade = { CascadeType.PERSIST, CascadeType.REMOVE },
         orphanRemoval = true
     )
+    @JsonManagedReference
     private List<ImageEntity> images = new ArrayList<>();
 
     @OneToMany(
+        fetch = FetchType.LAZY,
         mappedBy = "post",
         cascade = { CascadeType.PERSIST, CascadeType.REMOVE },
         orphanRemoval = true
     )
+    @JsonManagedReference
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder

@@ -1,5 +1,6 @@
 package com.microservices.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
@@ -27,8 +28,9 @@ public class CommentEntity {
     @Column(nullable = false)
     String createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="post_id")
+    @JsonBackReference
     private PostEntity post;
 
     @Builder

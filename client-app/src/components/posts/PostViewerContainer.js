@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { readPost, unloadPost } from '../../modules/post';
+import { initialize } from '../../modules/writeComment';
 import PostViewer from './PostViewer';
 
 const PostViewerContainer = ({ match }) => {
@@ -18,6 +19,7 @@ const PostViewerContainer = ({ match }) => {
 
         return() => {
             dispatch(unloadPost());
+            dispatch(initialize());
         };
     }, [dispatch, postId]);
 

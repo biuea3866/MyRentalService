@@ -1,6 +1,8 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palettes';
+import writeComment from '../../modules/writeComment';
 
 const ButtonBlock = styled.div`
     width: 60px;
@@ -27,9 +29,30 @@ const Button = styled.button`
 `;
 
 const WriteButton = () => {
+    const dispatch = useDispatch();
+    const { 
+        comment,
+        writer,
+        postId,
+    } = useSelector(({ 
+        writeComment,
+        user,
+        post,
+    }) => ({ 
+        comment: writeComment.comment,
+        writer: user.nickname,
+        postId: post.postId
+    }));
+
+    const onSubmit = e => {
+        e.preventDefault();
+
+        dispatch(writeComment({ postId, comment, writer }));
+    };
+
     return (
         <ButtonBlock>
-            <Button>
+            <Button onClick={ onSubmit }>
                 댓글 달기
             </Button>
         </ButtonBlock>

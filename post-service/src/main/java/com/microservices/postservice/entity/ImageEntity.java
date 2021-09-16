@@ -1,5 +1,6 @@
 package com.microservices.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,9 @@ public class ImageEntity {
     @Column(name="image_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="post_id")
+    @JsonBackReference
     private PostEntity post;
 
     @Column(nullable = false)
