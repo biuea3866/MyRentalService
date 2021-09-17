@@ -4,6 +4,7 @@ import com.microservices.postservice.dto.CommentDto;
 import com.microservices.postservice.dto.PostDto;
 import com.microservices.postservice.message.KafkaProducer;
 import com.microservices.postservice.service.CommentService;
+import com.microservices.postservice.service.ImageService;
 import com.microservices.postservice.service.PostService;
 import com.microservices.postservice.vo.RequestCreateComment;
 import com.microservices.postservice.vo.RequestRental;
@@ -25,6 +26,7 @@ import java.util.List;
 public class PostController {
     private PostService postService;
     private CommentService commentService;
+    private ImageService imageService;
     private Environment env;
     private KafkaProducer kafkaProducer;
 
@@ -32,11 +34,13 @@ public class PostController {
     public PostController(
         PostService postService,
         CommentService commentService,
+        ImageService imageService,
         Environment env,
         KafkaProducer kafkaProducer
     ) {
         this.postService = postService;
         this.commentService = commentService;
+        this.imageService = imageService;
         this.env = env;
         this.kafkaProducer = kafkaProducer;
     }

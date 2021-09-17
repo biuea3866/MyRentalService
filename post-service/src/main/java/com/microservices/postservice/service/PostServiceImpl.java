@@ -7,7 +7,7 @@ import com.microservices.postservice.entity.PostEntity;
 import com.microservices.postservice.repository.ImageRepository;
 import com.microservices.postservice.repository.PostRepository;
 import com.microservices.postservice.util.DateUtil;
-import com.microservices.postservice.util.FileUploader;
+import com.microservices.postservice.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
                                           .createdAt(DateUtil.dateNow())
                                           .status(postDto.getStatus())
                                           .build();
-        List<ImageEntity> images = FileUploader.parseFileInfo(
+        List<ImageEntity> images = FileUtil.parseFileInfo(
             postDto.getMultipartFiles(),
             postEntity
         );
@@ -88,6 +88,9 @@ public class PostServiceImpl implements PostService {
         List<CommentEntity> comments = new ArrayList<>();
 
         postEntity.getImages().forEach(i -> {
+            String filePath = i.getFilePath();
+            i.setFilePath(FileUtil.getFileContent(filePath));
+
             images.add(i);
         });
 
@@ -132,6 +135,14 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(v -> {
             List<CommentEntity> comments = new ArrayList<>();
+            List<ImageEntity> images = new ArrayList<>();
+
+            v.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
+
+                images.add(i);
+            });
 
             v.getComments().forEach(i -> {
                 comments.add(CommentEntity.builder()
@@ -153,7 +164,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+                                .images(images)
                                 .comments(comments)
                                 .status(v.getStatus())
                                 .build());
@@ -172,6 +183,14 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(v -> {
             List<CommentEntity> comments = new ArrayList<>();
+            List<ImageEntity> images = new ArrayList<>();
+
+            v.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
+
+                images.add(i);
+            });
 
             v.getComments().forEach(i -> {
                 comments.add(CommentEntity.builder()
@@ -193,7 +212,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+                                .images(images)
                                 .comments(comments)
                                 .status(v.getStatus())
                                 .build());
@@ -212,6 +231,14 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(v -> {
             List<CommentEntity> comments = new ArrayList<>();
+            List<ImageEntity> images = new ArrayList<>();
+
+            v.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
+
+                images.add(i);
+            });
 
             v.getComments().forEach(i -> {
                 comments.add(CommentEntity.builder()
@@ -233,7 +260,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+                                .images(images)
                                 .comments(comments)
                                 .status(v.getStatus())
                                 .build());
@@ -269,6 +296,14 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(v -> {
             List<CommentEntity> comments = new ArrayList<>();
+            List<ImageEntity> images = new ArrayList<>();
+
+            v.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
+
+                images.add(i);
+            });
 
             v.getComments().forEach(i -> {
                 comments.add(CommentEntity.builder()
@@ -290,7 +325,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+                                .images(images)
                                 .comments(comments)
                                 .status(v.getStatus())
                                 .build());
@@ -316,6 +351,14 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(v -> {
             List<CommentEntity> comments = new ArrayList<>();
+            List<ImageEntity> images = new ArrayList<>();
+
+            v.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
+
+                images.add(i);
+            });
 
             v.getComments().forEach(i -> {
                 comments.add(CommentEntity.builder()
@@ -337,7 +380,7 @@ public class PostServiceImpl implements PostService {
                                 .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
-                                .images(v.getImages())
+                                .images(images)
                                 .comments(comments)
                                 .status(v.getStatus())
                                 .build());

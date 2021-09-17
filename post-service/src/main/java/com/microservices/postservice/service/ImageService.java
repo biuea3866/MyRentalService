@@ -23,4 +23,9 @@ public class ImageService {
     public Iterable<ImageEntity> getImages(String postId) {
         return imageRepository.findByPostId(postId);
     }
+
+    @Transactional
+    public Iterable<ImageEntity> getAllImages() {
+        return imageRepository.findAll();
+    }
 }

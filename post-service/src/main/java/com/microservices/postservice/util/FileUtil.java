@@ -2,7 +2,9 @@ package com.microservices.postservice.util;
 
 import com.microservices.postservice.entity.ImageEntity;
 import com.microservices.postservice.entity.PostEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import org.springframework.stereotype.Component;
@@ -16,11 +18,13 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
 @Component
-public class FileUploader {
+@Slf4j
+public class FileUtil {
     private static final String basePath = "/home/biuea/Desktop/MyRentalPlatform/post-service/src/main/resources";
 
     public static List<ImageEntity> parseFileInfo(
@@ -78,6 +82,26 @@ public class FileUploader {
         }
 
         return imageList;
+    }
+
+    public static byte[] convertFileContentToBlob(String filePath) {
+        byte[] result = null;
+
+        try {
+            result = FileUtils.readFileToByteArray(new File(filePath));
+        } catch(IOException io) {
+            log.error("File Conver Error");
+        }
+
+        return result;
+    }
+
+    public static String convertBlobToBase64(byte[] blob) {
+        return new String(Base64.getEncoder().encode(blob));
+    }
+
+    public static String getFileContent(String filePath) {
+        return convertBlobToBase64(convertFileContentToBlob(filePath));
     }
 
     public static String MD5Generator(String input) throws UnsupportedEncodingException, NoSuchAlgorithmException {

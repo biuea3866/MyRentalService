@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palettes';
+import no_image from '../../static/no-image.png';
 
 const PostCardBlock = styled.div`
     background-color: white;
@@ -45,14 +46,16 @@ const PostCard = ({ item, i }) => {
     return(
         <Link to={ `/posts/post/${item.postId}` }>
             <PostCardBlock>
-                <CardImage 
-                    src={ item.images[0] }
-                />
+                <CardImage src={ 
+                    item.postType === '빌려줄게요' ?
+                    "data:image/png;base64," + item.images[0].filePath :
+                    no_image
+                } />
                 <CardTitle>
                     { item.title }
                 </CardTitle>
                 <CardNickname>
-                    { item.nickname }
+                    { item.writer }
                 </CardNickname>
                 <CardDate>
                     { item.createdAt }

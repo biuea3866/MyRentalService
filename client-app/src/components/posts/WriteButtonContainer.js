@@ -75,11 +75,11 @@ const WriteButtonContainer = ({ history, error, setError }) => {
             return;
         }
 
-        if(postError) {
-            setError('에러 발생!');
+        // if(postError) {
+        //     setError('에러 발생!');
 
-            return;
-        }
+        //     return;
+        // }
 
         dispatch(writePost({
             userId,
@@ -93,6 +93,8 @@ const WriteButtonContainer = ({ history, error, setError }) => {
             images,
         }));
 
+        dispatch(initialize());
+        
         history.push('/posts');
     };
 

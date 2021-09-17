@@ -27,7 +27,7 @@ public class PostEntity {
     @Column(nullable = false)
     private String postType;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String category;
 
     @Column(nullable = true)

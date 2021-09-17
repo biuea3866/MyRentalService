@@ -39,7 +39,7 @@ export const write = ({
     }
 };
 
-export const readAllPosts = () => client.get('/post-service');
+export const readAllPosts = () => client.get('/post-service/');
 
 export const readPostsByStatus = status => client.get(`/post-service/posts/status/${status}`)
 
