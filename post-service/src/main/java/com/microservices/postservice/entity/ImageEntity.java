@@ -28,7 +28,7 @@ public class ImageEntity {
     @Column(nullable = false)
     private String fileName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String filePath;
 
     private Long fileSize;

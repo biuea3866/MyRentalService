@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palettes';
-import writeComment from '../../modules/writeComment';
+import { write, changeField } from '../../modules/writeComment';
 
 const ButtonBlock = styled.div`
     width: 60px;
@@ -32,22 +32,36 @@ const WriteButton = () => {
     const dispatch = useDispatch();
     const { 
         comment,
-        writer,
         postId,
+        writer,
     } = useSelector(({ 
         writeComment,
-        user,
         post,
+        user,
     }) => ({ 
         comment: writeComment.comment,
-        writer: user.nickname,
-        postId: post.postId
+        postId: post.post.id,
+        writer: user.user.nickname,
     }));
+
+    useEffect(() => {
+        dispatch(changeField({
+            key: 'postId',
+            value: postId
+        }));
+    }, [dispatch, postId]);
+
+    useEffect(() => {
+        dispatch(changeField({
+            key: 'writer',
+            value: writer
+        }));
+    }, [dispatch, writer]);
 
     const onSubmit = e => {
         e.preventDefault();
-
-        dispatch(writeComment({ postId, comment, writer }));
+        
+        dispatch(write({ postId, comment, writer }));
     };
 
     return (

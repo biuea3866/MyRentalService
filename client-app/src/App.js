@@ -43,7 +43,7 @@ const App = () => {
             />
             <Route 
                 component={ PostDetailPage }
-                path="/posts/post/:postId"
+                path="/posts/post/:id"
             />
         </>
     );

@@ -8,9 +8,9 @@ import { takeLatest } from "redux-saga/effects";
 const INITIALIZE = 'comment/INITIALIZE';
 const CHANGE_FIELD = 'comment/CHANGE_FIELD';
 const [
-    COMMENT,
-    COMMENT_SUCCESS,
-    COMMENT_FAILURE,
+    WRITE_COMMENT,
+    WRITE_COMMENT_SUCCESS,
+    WRITE_COMMENT_FAILURE,
 ] = createRequestActionTypes('comment/WRITE_COMMENT');
 
 export const initialize = createAction(INITIALIZE);
@@ -18,19 +18,19 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
     key,
     value
 }));
-export const write = createAction(COMMENT, ({
+export const write = createAction(WRITE_COMMENT, ({
+    postId,
     comment,
     writer,
-    postId
 }) => ({
+    postId,
     comment,
     writer,
-    postId
 }));
 
-const writeSaga = createRequestSaga(COMMENT, postsAPI.writeComment);
+const writeSaga = createRequestSaga(WRITE_COMMENT, postsAPI.writeComment);
 export function* writeCommentSaga() {
-    yield takeLatest(COMMENT, writeSaga);
+    yield takeLatest(WRITE_COMMENT, writeSaga);
 }
 
 const initialState = {
@@ -48,16 +48,16 @@ const writeComment = handleActions(
             ...state,
             [key]: value,
         }),
-        [COMMENT]: state => ({
+        [WRITE_COMMENT]: state => ({
             ...state,
             success: null,
             failure: null,
         }),
-        [COMMENT_SUCCESS]: (state, { payload: success }) => ({
+        [WRITE_COMMENT_SUCCESS]: (state, { payload: success }) => ({
             ...state,
             success,
         }),
-        [COMMENT_FAILURE]: (state, { payload: failure }) => ({
+        [WRITE_COMMENT_FAILURE]: (state, { payload: failure }) => ({
             ...state,
             failure,
         }),

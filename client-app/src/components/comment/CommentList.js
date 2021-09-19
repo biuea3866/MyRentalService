@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CommentItem from './CommentItem';
 
@@ -9,22 +10,21 @@ const ListBlock = styled.div`
     float: left;
 `;
 
-const CommentList = () => {
-    const dummyData = [
-        {"commentId": "1", "comment": "test-01", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "2", "comment": "test-02", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "3", "comment": "test-03", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "4", "comment": "test-04", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "5", "comment": "test-05", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "6", "comment": "test-06", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "7", "comment": "test-07", "createdAt": "2000-01-01", "writer": "test-01"},
-        {"commentId": "8", "comment": "test-08", "createdAt": "2000-01-01", "writer": "test-01"},
-    ];
+const CommentList = ({ comments }) => {
+    const dispatch = useDispatch();
+    const { success } = useSelector(({ writeComment }) => ({ success: writeComment.success }));
     
+    useEffect(() => {
+        if(success) {
+            window.location.reload();
+        }
+    }, [dispatch, success]);
+
     return(
         <ListBlock>
             { 
-                dummyData.map((item, i) => {
+                comments !== null &&
+                comments.map((item, i) => {
                     return (
                         <CommentItem
                             item={ item }

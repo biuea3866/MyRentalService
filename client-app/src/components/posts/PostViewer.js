@@ -60,6 +60,7 @@ const PostArticle = styled.div`
 
 const PostContent = styled.div`
     font-size: 1.3125rem;
+    padding: 15px;
     color: ${ palette.gray[8] };
 `;
 
@@ -85,46 +86,39 @@ const PostViewer = ({
     error, 
     loading
 }) => {
-    const dummyData = [
-        { "images": "https://picsum.photos/id/0/1000/1000.jpg" },
-        { "images": "https://picsum.photos/id/1/1000/1000.jpg" },
-        { "images": "https://picsum.photos/id/2/1000/1000.jpg" },
-        { "images": "https://picsum.photos/id/3/1000/1000.jpg" },
-        { "images": "https://picsum.photos/id/4/1000/1000.jpg" },
-    ]
-    // if(error) {
-    //     if(error.response && error.response.status === 404) {
-    //         return <PostViewerBlock>존재하지 않는 포스트입니다.</PostViewerBlock>
-    //     }
+    if(error) {
+        if(error.response && error.response.status === 404) {
+            return <PostViewerBlock>존재하지 않는 포스트입니다.</PostViewerBlock>
+        }
 
-    //     return <PostViewerBlock>오류 발생!</PostViewerBlock>
-    // }
+        return <PostViewerBlock>오류 발생!</PostViewerBlock>
+    }
 
-    // if(loading || !post) {
-    //     return null;
-    // }
+    if(loading || !post) {
+        return null;
+    }
 
     return(
         <PostViewerBlock>
             <PostHead>
-                <h1>title</h1>
+                <h1>{ post.title }</h1>
                 <SubInfo>
                     <span>
-                        <b>writer</b>
+                        <b>{ post.writer }</b>
                     </span>
                     <span>
-                        {/* { post.createdAt } */}
+                        { post.createdAt }
                     </span>
                 </SubInfo>
             </PostHead>
             <PostArticle>
-                <ImageSlider Images={ dummyData }/>
+                <ImageSlider Images={ post.images }/>
             </PostArticle>
             <PostContent 
-                // dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ __html: post.content }}
             />
             {
-                // post.type === '빌려줄게요' &&
+                post.postType === '빌려줄게요' &&
                 <PostNav>
                     <MessageArea>
                         <StyledShorcut path='/messages'
@@ -144,7 +138,7 @@ const PostViewer = ({
                     </RentalArea>
                 </PostNav>
             }
-            <CommentContainer />
+            <CommentContainer comments={ post.comments }/>
         </PostViewerBlock>
     );
 };

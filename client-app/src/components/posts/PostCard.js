@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import palette from '../../lib/styles/palettes';
 import no_image from '../../static/no-image.png';
 
@@ -31,20 +31,20 @@ const CardImage = styled.img`
 
 const CardNickname = styled.div`
     float: left;
-    width: 300px;
+    width: 240px;
     text-align: left;
     padding-left: 10px;
 `;
 
 const CardDate = styled.div`
     float: left;
-    width: 90px;
+    width: 140px;
     color: ${ palette.gray[6] }
 `;
 
 const PostCard = ({ item, i }) => {
     return(
-        <Link to={ `/posts/post/${item.postId}` }>
+        <Link to={ `/posts/post/${ item.id }` }>
             <PostCardBlock>
                 <CardImage src={ 
                     item.postType === '빌려줄게요' ?
@@ -65,4 +65,4 @@ const PostCard = ({ item, i }) => {
     );
 };
 
-export default PostCard;
+export default withRouter(PostCard);

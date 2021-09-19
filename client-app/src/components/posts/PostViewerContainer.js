@@ -6,7 +6,7 @@ import { initialize } from '../../modules/writeComment';
 import PostViewer from './PostViewer';
 
 const PostViewerContainer = ({ match }) => {
-    const { postId } = match.params;
+    const { id } = match.params;
     const dispatch = useDispatch();
     const { post, error, loading } = useSelector(({ post, loading }) => ({
         post: post.post,
@@ -15,13 +15,13 @@ const PostViewerContainer = ({ match }) => {
     }));
 
     useEffect(() => {
-        dispatch(readPost({ postId }));
+        dispatch(readPost(id));
 
         return() => {
             dispatch(unloadPost());
             dispatch(initialize());
         };
-    }, [dispatch, postId]);
+    }, [dispatch, id]);
 
     return <PostViewer post={ post } 
                        loading={ loading } 

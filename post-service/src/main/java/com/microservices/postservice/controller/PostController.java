@@ -2,6 +2,7 @@ package com.microservices.postservice.controller;
 
 import com.microservices.postservice.dto.CommentDto;
 import com.microservices.postservice.dto.PostDto;
+import com.microservices.postservice.entity.CommentEntity;
 import com.microservices.postservice.message.KafkaProducer;
 import com.microservices.postservice.service.CommentService;
 import com.microservices.postservice.service.ImageService;
@@ -305,15 +306,12 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.deletePost(id));
     }
 
-    @PostMapping("/{postId}/comments")
-    public ResponseEntity<?> writeComment(
-        @PathVariable("postId") Long postId,
-        @RequestBody RequestCreateComment comment
-    ) {
+    @PostMapping("/comments")
+    public ResponseEntity<?> writeComment(@RequestBody RequestCreateComment comment) {
         log.info("Post Service's Controller Layer :: Call writeComment Method!");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.writeComment(CommentDto.builder()
-                                                                                                    .postId(postId)
+                                                                                                    .postId(comment.getPostId())
                                                                                                     .writer(comment.getWriter())
                                                                                                     .comment(comment.getComment())
                                                                                                     .build()));

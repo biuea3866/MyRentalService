@@ -54,10 +54,11 @@ export const readPostsByKeyword = keyword => client.get(`/post-service/keyword/$
 export const deletePost = id => client.post(`/post-service/${id}/delete`);
 
 export const writeComment = ({ 
-    id,
+    postId,
     writer, 
     comment, 
-}) => client.post(`/post-service/${id}/comments`, {
+}) => client.post(`/post-service/comments`, {
+    postId,
     writer, 
     comment
 });

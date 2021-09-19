@@ -87,12 +87,14 @@ public class PostServiceImpl implements PostService {
         List<ImageEntity> images = new ArrayList<>();
         List<CommentEntity> comments = new ArrayList<>();
 
-        postEntity.getImages().forEach(i -> {
-            String filePath = i.getFilePath();
-            i.setFilePath(FileUtil.getFileContent(filePath));
+        if(postEntity.getPostType().equals("빌려줄게요")) {
+            postEntity.getImages().forEach(i -> {
+                String filePath = i.getFilePath();
+                i.setFilePath(FileUtil.getFileContent(filePath));
 
-            images.add(i);
-        });
+                images.add(i);
+            });
+        }
 
         postEntity.getComments().forEach(i -> {
             comments.add(CommentEntity.builder()
@@ -104,6 +106,7 @@ public class PostServiceImpl implements PostService {
         });
 
         return PostDto.builder()
+                      .id(postEntity.getId())
                       .userId(postEntity.getUserId())
                       .postType(postEntity.getPostType())
                       .category(postEntity.getCategory())
@@ -134,38 +137,25 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
-            List<CommentEntity> comments = new ArrayList<>();
             List<ImageEntity> images = new ArrayList<>();
 
-            v.getImages().forEach(i -> {
-                String filePath = i.getFilePath();
-                i.setFilePath(FileUtil.getFileContent(filePath));
+            if(v.getPostType().equals("빌려줄게요")) {
+                v.getImages().forEach(i -> {
+                    String filePath = i.getFilePath();
+                    i.setFilePath(FileUtil.getFileContent(filePath));
 
-                images.add(i);
-            });
-
-            v.getComments().forEach(i -> {
-                comments.add(CommentEntity.builder()
-                                          .id(i.getId())
-                                          .comment(i.getComment())
-                                          .writer(i.getWriter())
-                                          .createdAt(i.getCreatedAt())
-                                          .build());
-            });
+                    images.add(i);
+                });
+            }
 
             postList.add(PostDto.builder()
+                                .id(v.getId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
-                                .category(v.getCategory())
-                                .rentalPrice(v.getRentalPrice())
                                 .title(v.getTitle())
-                                .content(v.getContent())
-                                .startDate(v.getStartDate())
-                                .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
                                 .images(images)
-                                .comments(comments)
                                 .status(v.getStatus())
                                 .build());
         });
@@ -182,38 +172,26 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
-            List<CommentEntity> comments = new ArrayList<>();
             List<ImageEntity> images = new ArrayList<>();
 
-            v.getImages().forEach(i -> {
-                String filePath = i.getFilePath();
-                i.setFilePath(FileUtil.getFileContent(filePath));
+            if(v.getPostType().equals("빌려줄게요")) {
+                v.getImages().forEach(i -> {
+                    String filePath = i.getFilePath();
+                    i.setFilePath(FileUtil.getFileContent(filePath));
 
-                images.add(i);
-            });
+                    images.add(i);
+                });
 
-            v.getComments().forEach(i -> {
-                comments.add(CommentEntity.builder()
-                                          .id(i.getId())
-                                          .comment(i.getComment())
-                                          .writer(i.getWriter())
-                                          .createdAt(i.getCreatedAt())
-                                          .build());
-            });
+            }
 
             postList.add(PostDto.builder()
+                                .id(v.getId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
-                                .category(v.getCategory())
-                                .rentalPrice(v.getRentalPrice())
                                 .title(v.getTitle())
-                                .content(v.getContent())
-                                .startDate(v.getStartDate())
-                                .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
                                 .images(images)
-                                .comments(comments)
                                 .status(v.getStatus())
                                 .build());
         });
@@ -230,38 +208,25 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
-            List<CommentEntity> comments = new ArrayList<>();
             List<ImageEntity> images = new ArrayList<>();
 
-            v.getImages().forEach(i -> {
-                String filePath = i.getFilePath();
-                i.setFilePath(FileUtil.getFileContent(filePath));
+            if(v.getPostType().equals("빌려줄게요")) {
+                v.getImages().forEach(i -> {
+                    String filePath = i.getFilePath();
+                    i.setFilePath(FileUtil.getFileContent(filePath));
 
-                images.add(i);
-            });
-
-            v.getComments().forEach(i -> {
-                comments.add(CommentEntity.builder()
-                                          .id(i.getId())
-                                          .comment(i.getComment())
-                                          .writer(i.getWriter())
-                                          .createdAt(i.getCreatedAt())
-                                          .build());
-            });
+                    images.add(i);
+                });
+            }
 
             postList.add(PostDto.builder()
+                                .id(v.getId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
-                                .category(v.getCategory())
-                                .rentalPrice(v.getRentalPrice())
                                 .title(v.getTitle())
-                                .content(v.getContent())
-                                .startDate(v.getStartDate())
-                                .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
                                 .images(images)
-                                .comments(comments)
                                 .status(v.getStatus())
                                 .build());
         });
@@ -295,38 +260,25 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
-            List<CommentEntity> comments = new ArrayList<>();
             List<ImageEntity> images = new ArrayList<>();
 
-            v.getImages().forEach(i -> {
-                String filePath = i.getFilePath();
-                i.setFilePath(FileUtil.getFileContent(filePath));
+            if(v.getPostType().equals("빌려줄게요")) {
+                v.getImages().forEach(i -> {
+                    String filePath = i.getFilePath();
+                    i.setFilePath(FileUtil.getFileContent(filePath));
 
-                images.add(i);
-            });
-
-            v.getComments().forEach(i -> {
-                comments.add(CommentEntity.builder()
-                                          .id(i.getId())
-                                          .comment(i.getComment())
-                                          .writer(i.getWriter())
-                                          .createdAt(i.getCreatedAt())
-                                          .build());
-            });
+                    images.add(i);
+                });
+            }
 
             postList.add(PostDto.builder()
+                                .id(v.getId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
-                                .category(v.getCategory())
-                                .rentalPrice(v.getRentalPrice())
                                 .title(v.getTitle())
-                                .content(v.getContent())
-                                .startDate(v.getStartDate())
-                                .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
                                 .images(images)
-                                .comments(comments)
                                 .status(v.getStatus())
                                 .build());
         });
@@ -350,38 +302,25 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postList = new ArrayList<>();
 
         posts.forEach(v -> {
-            List<CommentEntity> comments = new ArrayList<>();
             List<ImageEntity> images = new ArrayList<>();
 
-            v.getImages().forEach(i -> {
-                String filePath = i.getFilePath();
-                i.setFilePath(FileUtil.getFileContent(filePath));
+            if(v.getPostType().equals("빌려줄게요")) {
+                v.getImages().forEach(i -> {
+                    String filePath = i.getFilePath();
+                    i.setFilePath(FileUtil.getFileContent(filePath));
 
-                images.add(i);
-            });
-
-            v.getComments().forEach(i -> {
-                comments.add(CommentEntity.builder()
-                                          .id(i.getId())
-                                          .comment(i.getComment())
-                                          .writer(i.getWriter())
-                                          .createdAt(i.getCreatedAt())
-                                          .build());
-            });
+                    images.add(i);
+                });
+            }
 
             postList.add(PostDto.builder()
+                                .id(v.getId())
                                 .userId(v.getUserId())
                                 .postType(v.getPostType())
-                                .category(v.getCategory())
-                                .rentalPrice(v.getRentalPrice())
                                 .title(v.getTitle())
-                                .content(v.getContent())
-                                .startDate(v.getStartDate())
-                                .endDate(v.getEndDate())
                                 .createdAt(v.getCreatedAt())
                                 .writer(v.getWriter())
                                 .images(images)
-                                .comments(comments)
                                 .status(v.getStatus())
                                 .build());
         });

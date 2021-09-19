@@ -90,7 +90,7 @@ public class FileUtil {
         try {
             result = FileUtils.readFileToByteArray(new File(filePath));
         } catch(IOException io) {
-            log.error("File Conver Error");
+            log.error("File Converts Error -> {}", filePath);
         }
 
         return result;

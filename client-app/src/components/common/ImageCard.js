@@ -11,7 +11,7 @@ const Image = styled.img`
 const ImageCard = ({ image, i }) => {
     return(
         <ImageBlock>
-            <Image src={ image.images } 
+            <Image src={ "data:image/png;base64," +  image.filePath }
                    alt="legend"
             />
         </ImageBlock>
