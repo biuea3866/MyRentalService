@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import MessagePage from './pages/MessagePage';
 import MyPage from './pages/MyPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostPage from './pages/PostPage';
@@ -44,6 +45,12 @@ const App = () => {
             <Route 
                 component={ PostDetailPage }
                 path="/posts/post/:id"
+                exact
+            />
+            <Route 
+                component={ MessagePage }
+                path="/messages"
+                exact
             />
         </>
     );

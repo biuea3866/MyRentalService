@@ -3,12 +3,12 @@ package com.microservices.messageservice.service;
 import com.microservices.messageservice.dto.MessageDto;
 import com.microservices.messageservice.entity.MessageEntity;
 import com.microservices.messageservice.repository.MessageRepository;
-import com.microservices.messageservice.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +31,7 @@ public class MessageServiceImpl implements MessageService {
                                                    .sender(dto.getSender())
                                                    .receiver(dto.getReceiver())
                                                    .content(dto.getContent())
-                                                   .createdAt(DateUtil.dateNow())
-                                                   .status("CREATE_MESSAGE")
+                                                   .createdAt(LocalDateTime.now())
                                                    .build();
 
         messageRepository.save(messageEntity);
@@ -41,33 +40,15 @@ public class MessageServiceImpl implements MessageService {
                          .sender(dto.getSender())
                          .receiver(dto.getReceiver())
                          .content(dto.getContent())
-                         .createdAt(DateUtil.dateNow())
-                         .status("CREATE_MESSAGE")
                          .build();
     }
 
     @Transactional
     @Override
-    public MessageDto getMessageById(Long id) {
-        log.info("Message Service's Service Layer :: Call getMessageById Method!");
+    public Iterable<MessageDto> getUserList(String receiver) {
+        log.info("Message Service's Service Layer :: Call getUserList Method!");
 
-        MessageEntity messageEntity = messageRepository.findMessageById(id);
-
-        return MessageDto.builder()
-                         .id(messageEntity.getId())
-                         .sender(messageEntity.getSender())
-                         .receiver(messageEntity.getReceiver())
-                         .content(messageEntity.getContent())
-                         .createdAt(messageEntity.getCreatedAt())
-                         .build();
-    }
-
-    @Transactional
-    @Override
-    public Iterable<MessageDto> getAllSendList(String sender) {
-        log.info("Message Service's Service Layer :: Call getAllSendList Method!");
-
-        Iterable<MessageEntity> messageList = messageRepository.findAllSendList(sender);
+        Iterable<MessageEntity> messageList = messageRepository.findUserList(receiver);
         List<MessageDto> messages = new ArrayList<>();
 
         messageList.forEach(message -> {
@@ -85,10 +66,14 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public Iterable<MessageDto> getAllReceiveList(String receiver) {
-        log.info("Message Service's Service Layer :: Call getAllReceiveList Method!");
+    public Iterable<MessageDto> getMessageList(
+        String sender,
+        String receiver
+    ) {
+        log.info("Message Service's Service Layer :: Call getMessageList Method!");
 
-        Iterable<MessageEntity> messageList = messageRepository.findAllReceiveList(receiver);
+        Iterable<MessageEntity> messageList = messageRepository.findMessageList(sender,
+                                                                               receiver);
         List<MessageDto> messages = new ArrayList<>();
 
         messageList.forEach(message -> {
@@ -102,13 +87,5 @@ public class MessageServiceImpl implements MessageService {
         });
 
         return messages;
-    }
-
-    @Transactional
-    @Override
-    public void deleteMessage(Long id) {
-        log.info("Message Service's Service Layer :: Call deleteMessage Method!");
-
-        messageRepository.updateStatus(id);
     }
 }

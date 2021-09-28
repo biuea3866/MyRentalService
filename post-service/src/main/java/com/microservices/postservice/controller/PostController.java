@@ -7,6 +7,7 @@ import com.microservices.postservice.message.KafkaProducer;
 import com.microservices.postservice.service.CommentService;
 import com.microservices.postservice.service.ImageService;
 import com.microservices.postservice.service.PostService;
+import com.microservices.postservice.states.PostStatus;
 import com.microservices.postservice.vo.RequestCreateComment;
 import com.microservices.postservice.vo.RequestRental;
 import com.microservices.postservice.vo.RequestWrite;
@@ -72,7 +73,7 @@ public class PostController {
                              .endDate(postVo.getDate().get(1))
                              .rentalPrice(postVo.getRentalPrice())
                              .writer(postVo.getWriter())
-                             .status("READY_RENTAL")
+                             .status(PostStatus.READY_RENTAL.name())
                              .userId(postVo.getUserId())
                              .multipartFiles(postVo.getImages())
                              .build();
@@ -85,7 +86,7 @@ public class PostController {
                              .endDate(null)
                              .rentalPrice(null)
                              .writer(postVo.getWriter())
-                             .status("REQUEST_RENTAL")
+                             .status(PostStatus.REQUEST_RENTAL.name())
                              .userId(postVo.getUserId())
                              .multipartFiles(postVo.getImages())
                              .build();

@@ -2,7 +2,9 @@ package com.microservices.messageservice.controller;
 
 import com.microservices.messageservice.dto.MessageDto;
 import com.microservices.messageservice.service.MessageService;
+import com.microservices.messageservice.vo.RequestMessageList;
 import com.microservices.messageservice.vo.RequestSend;
+import com.microservices.messageservice.vo.RequestUserList;
 import com.microservices.messageservice.vo.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,66 +54,46 @@ public class MessageController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully send message to " + messageService.send(messageDto).getReceiver());
     }
 
-    @GetMapping("/{id}/get-message")
-    public ResponseEntity<?> getMessageById(@PathVariable("id") Long id) {
-        log.info("Message Service's Controller Layer :: getMessageById send Method!");
+    @GetMapping("/user-list")
+    public ResponseEntity<?> getUserList(@RequestBody RequestUserList vo) {
+        log.info("Message Service's Controller Layer :: Call getUserList Method!");
 
-        MessageDto messageDto = messageService.getMessageById(id);
+        Iterable<MessageDto> messageList = messageService.getUserList(vo.getReceiver());
+        List<ResponseMessage> result = new ArrayList<>();
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseMessage.builder()
-                                                                        .sender(messageDto.getSender())
-                                                                        .receiver(messageDto.getReceiver())
-                                                                        .content(messageDto.getContent())
-                                                                        .createdAt(messageDto.getCreatedAt())
-                                                                        .build());
-    }
-
-    @GetMapping("/{nickname}/send-list")
-    public ResponseEntity<?> getAllSendList(@PathVariable("nickname") String nickname) {
-        log.info("Message Service's Controller Layer :: getSendList send Method!");
-
-        Iterable<MessageDto> messageList = messageService.getAllSendList(nickname);
-        List<ResponseMessage> messages = new ArrayList<>();
-
-        messageList.forEach(message -> {
-            messages.add(ResponseMessage.builder()
-                                        .id(message.getId())
-                                        .sender(message.getSender())
-                                        .receiver(message.getReceiver())
-                                        .content(message.getContent())
-                                        .createdAt(message.getCreatedAt())
-                                        .build());
+        messageList.forEach(v -> {
+            result.add(ResponseMessage.builder()
+                                      .id(v.getId())
+                                      .sender(v.getSender())
+                                      .receiver(v.getReceiver())
+                                      .content(v.getContent())
+                                      .createdAt(v.getCreatedAt())
+                                      .build()
+            );
         });
 
-        return ResponseEntity.status(HttpStatus.OK).body(messages);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/{nickname}/receive-list")
-    public ResponseEntity<?> getAllReceiveList(@PathVariable("nickname") String nickname) {
-        log.info("Message Service's Controller Layer :: getAllReceiveList send Method!");
+    @GetMapping("/message-list")
+    public ResponseEntity<?> getMessageList(@RequestBody RequestMessageList vo) {
+        log.info("Message Service's Controller Layer :: Call getUserList Method!");
 
-        Iterable<MessageDto> messageList = messageService.getAllReceiveList(nickname);
-        List<ResponseMessage> messages = new ArrayList<>();
+        Iterable<MessageDto> messageList = messageService.getMessageList(vo.getSender(),
+                                                                         vo.getReceiver());
+        List<ResponseMessage> result = new ArrayList<>();
 
-        messageList.forEach(message -> {
-            messages.add(ResponseMessage.builder()
-                                        .id(message.getId())
-                                        .sender(message.getSender())
-                                        .receiver(message.getReceiver())
-                                        .content(message.getContent())
-                                        .createdAt(message.getCreatedAt())
-                                        .build());
+        messageList.forEach(v -> {
+            result.add(ResponseMessage.builder()
+                .id(v.getId())
+                .sender(v.getSender())
+                .receiver(v.getReceiver())
+                .content(v.getContent())
+                .createdAt(v.getCreatedAt())
+                .build()
+            );
         });
 
-        return ResponseEntity.status(HttpStatus.OK).body(messages);
-    }
-
-    @PostMapping("/{id}/delete-message")
-    public ResponseEntity<?> deleteMessage(@PathVariable("id") Long id) {
-        log.info("Message Service's Controller Layer :: deleteMessage send Method!");
-
-        messageService.deleteMessage(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully delete the message!");
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

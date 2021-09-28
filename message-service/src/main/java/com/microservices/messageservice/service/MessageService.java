@@ -5,11 +5,8 @@ import com.microservices.messageservice.dto.MessageDto;
 public interface MessageService {
     MessageDto send(MessageDto dto);
 
-    MessageDto getMessageById(Long id);
+    Iterable<MessageDto> getUserList(String receiver);
 
-    Iterable<MessageDto> getAllSendList(String sender);
-
-    Iterable<MessageDto> getAllReceiveList(String receiver);
-
-    void deleteMessage(Long id);
+    Iterable<MessageDto> getMessageList(String sender,
+                                        String receiver);
 }

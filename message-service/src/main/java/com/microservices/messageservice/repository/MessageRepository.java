@@ -7,30 +7,24 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
-
-    MessageEntity findMessageById(Long id);
+    @Query(
+        value = "SELECT distinct (sender, content, createdAt) " +
+                "FROM messages m " +
+                "WHERE m.receiver = :receiver " +
+                "ORDER BY m.id DESC ",
+        nativeQuery = true
+    )
+    Iterable<MessageEntity> findUserList(String receiver);
 
     @Query(
         value = "SELECT * " +
-                "FROM messages m " +
-                "WHERE m.status = 'CREATE_MESSAGE' AND m.sender = :sender",
+            "FROM messages m " +
+            "WHERE m.receiver = :receiver AND m.sender = :sender " +
+            "ORDER BY m.id ASC",
         nativeQuery = true
     )
-    Iterable<MessageEntity> findAllSendList(String sender);
-
-    @Query(
-        value = "SELECT * " +
-                "FROM messages m " +
-                "WHERE m.status = 'CREATE_MESSAGE' AND m.receiver = :receiver",
-        nativeQuery = true
-    )
-    Iterable<MessageEntity> findAllReceiveList(String receiver);
-
-    @Query(
-        value = "UPDATE messages m " +
-                "SET m.status = 'DELETE_MESSAGE' " +
-                "WHERE m.id = :id",
-        nativeQuery = true
-    )
-    void updateStatus(Long id);
+    Iterable<MessageEntity> findMessageList(
+        String sender,
+        String receiver
+    );
 }

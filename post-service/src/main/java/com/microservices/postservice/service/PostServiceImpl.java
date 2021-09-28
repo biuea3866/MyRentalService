@@ -6,6 +6,7 @@ import com.microservices.postservice.entity.ImageEntity;
 import com.microservices.postservice.entity.PostEntity;
 import com.microservices.postservice.repository.ImageRepository;
 import com.microservices.postservice.repository.PostRepository;
+import com.microservices.postservice.states.PostStatus;
 import com.microservices.postservice.util.DateUtil;
 import com.microservices.postservice.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -241,7 +242,7 @@ public class PostServiceImpl implements PostService {
 
         PostEntity postEntity = postRepository.findPostById(id);
 
-        postEntity.setStatus("DELETE_POST");
+        postEntity.setStatus(PostStatus.DELETE_POST.name());
 
         postRepository.save(postEntity);
 
@@ -292,8 +293,9 @@ public class PostServiceImpl implements PostService {
         log.info("Post Service's Service Layer :: Call getPostsByCategory Method!");
 
         ArrayList<String> exceptList = new ArrayList<>();
-        exceptList.add("COMPLETE_RENTAL");
-        exceptList.add("DELETE_POST");
+
+        exceptList.add(PostStatus.COMPLETE_RENTAL.name());
+        exceptList.add(PostStatus.DELETE_POST.name());
 
         Iterable<PostEntity> posts = postRepository.findAllByCategory(
             category,

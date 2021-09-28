@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseMessage {
@@ -11,7 +13,7 @@ public class ResponseMessage {
     private String sender;
     private String receiver;
     private String content;
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @Builder
     public ResponseMessage(
@@ -19,7 +21,7 @@ public class ResponseMessage {
         String sender,
         String receiver,
         String content,
-        String createdAt
+        LocalDateTime createdAt
     ) {
         this.id = id;
         this.sender = sender;

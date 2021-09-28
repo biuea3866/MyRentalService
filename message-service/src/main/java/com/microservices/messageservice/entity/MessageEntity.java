@@ -3,8 +3,10 @@ package com.microservices.messageservice.entity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -24,11 +26,9 @@ public class MessageEntity {
     @Column(nullable = false)
     private String content;
 
+    @CreatedDate
     @Column(nullable = false)
-    private String createdAt;
-
-    @Column(nullable = false)
-    private String status;
+    private LocalDateTime createdAt;
 
     @Builder
     public MessageEntity(
@@ -36,14 +36,12 @@ public class MessageEntity {
         String sender,
         String receiver,
         String content,
-        String createdAt,
-        String status
+        LocalDateTime createdAt
     ) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
         this.createdAt = createdAt;
-        this.status = status;
     }
 }
