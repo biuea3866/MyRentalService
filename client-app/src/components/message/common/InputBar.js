@@ -2,20 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import Input from '../../common/Input';
 
-const SearchBarArea = styled.div`
+const InputBarArea = styled.div`
     float: left;
     width: inherit;
 `;
 
-const SearchBar = ({ placeholder }) => {
+const InputBar = ({ placeholder, onChange, name }) => {
     return(
-        <SearchBarArea>
-            <Input name="searchBar"
+        <InputBarArea>
+            <Input name={ name }
                    type="text"
                    placeholder={ placeholder }
+                   onChange={ onChange }
             />
-        </SearchBarArea>
+        </InputBarArea>
     );
 };
 
-export default SearchBar;
+export default InputBar;

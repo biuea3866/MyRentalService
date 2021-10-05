@@ -6,6 +6,8 @@ import write, { writeSaga } from "./write";
 import post, { postSaga } from "./post";
 import postList, { postListSaga } from "./postList";
 import writeComment, { writeCommentSaga } from "./writeComment";
+import send, { sendSaga } from './send';
+import messageList, { messageListSaga } from "./messageList";
 import loading from './loading';
 
 const rootReducer = combineReducers(
@@ -16,7 +18,9 @@ const rootReducer = combineReducers(
         write,
         post,
         postList,
-        writeComment
+        writeComment,
+        send,
+        messageList,
     },
 );
 
@@ -27,7 +31,9 @@ export function* rootSaga() {
         writeSaga(), 
         postSaga(), 
         postListSaga(),
-        writeCommentSaga()
+        writeCommentSaga(),
+        sendSaga(),
+        messageListSaga(),
     ]);
 }
 

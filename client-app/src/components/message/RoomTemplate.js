@@ -7,10 +7,16 @@ const Wrap = styled.div`
     height: 560px;
 `;
 
-const RoomTemplate = () => {
+const RoomTemplate = ({ chatList }) => {
     return(
         <Wrap>
-            <ChatCard />
+            {
+                chatList ?
+                chatList.map((item, i) => {
+                    return <ChatCard item={ item }/>
+                }) :
+                <></>
+            }
         </Wrap>
     );
 };

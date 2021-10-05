@@ -73,19 +73,25 @@ const LoginForm = ({ history }) => {
 
             dispatch(check(userId));
         }
-    }, [dispatch, user, auth, authError, history]);
+    }, [dispatch, auth, authError, history]);
 
     useEffect(() => {
         if(user) {
             try {
+                setError(null);
+
                 localStorage.setItem('user', JSON.stringify(user));
+
+                dispatch(initializeForm('auth'));
+                
+                dispatch(initializeForm('headers'));
                 
                 history.push('/');
             } catch(e) {
                 console.log('localStorage is not working');
             }
         }
-    });
+    }, [dispatch, user, history]);
 
     useEffect(() => {
         if(headers) {
@@ -98,7 +104,7 @@ const LoginForm = ({ history }) => {
             
             dispatch(info(userid));
         }
-    }, [dispatch, headers, history, auth]);
+    }, [dispatch, headers]);
 
     return (
         <AuthForm type='login'

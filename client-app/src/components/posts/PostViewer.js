@@ -121,7 +121,7 @@ const PostViewer = ({
                 post.postType === '빌려줄게요' &&
                 <PostNav>
                     <MessageArea>
-                        <StyledShorcut path='/messages'
+                        <StyledShorcut path={ `/messages/${post.writer}` }
                                        src={ paper_plane_outline }
                         />
                     </MessageArea>

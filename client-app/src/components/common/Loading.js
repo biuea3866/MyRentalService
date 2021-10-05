@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PostLoading = () => {
+const Loading = () => {
     const classes = useStyles();
 
     return(
@@ -21,4 +21,4 @@ const PostLoading = () => {
     );
 };
 
-export default PostLoading;
+export default Loading;

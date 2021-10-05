@@ -59,7 +59,7 @@ public class AuthController {
                                                .build());
     }
 
-    @GetMapping("/{userId}/info")
+    @GetMapping("/info/{userId}")
     public ResponseEntity<?> getUser(@PathVariable("userId") String userId) {
         log.info("Auth Service's Controller Layer :: Call getUser Method!");
 
@@ -74,7 +74,7 @@ public class AuthController {
                                                                      .build());
     }
 
-    @GetMapping("/{nickname}/my-rental-list")
+    @GetMapping("/info/{nickname}/my-rental-list")
     public ResponseEntity<?> getMyRentals(@PathVariable("nickname") String nickname) {
         log.info("Auth Service's Controller Layer :: Call getMyRentals Method!");
 
@@ -85,7 +85,7 @@ public class AuthController {
                                                                      .build());
     }
 
-    @GetMapping("/{nickname}/my-borrow-list")
+    @GetMapping("/info/{nickname}/my-borrow-list")
     public ResponseEntity<?> getMyBorrow(@PathVariable("nickname") String nickname) {
         log.info("Auth Service's Controller Layer :: Call getMyRentals Method!");
 
@@ -96,7 +96,7 @@ public class AuthController {
                                                                      .build());
     }
 
-    @GetMapping("/{userId}/check")
+    @GetMapping("/info/{userId}/check")
     public ResponseEntity<?> check(@PathVariable("userId") String userId) {
         log.info("Auth Service's Controller Layer :: Call getMyRentals Method!");
 
@@ -135,5 +135,12 @@ public class AuthController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        log.info("Auth Service's Controller Layer :: Call logout Method!");
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully logout");
     }
 }

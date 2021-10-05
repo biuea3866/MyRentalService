@@ -5,7 +5,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class RequestMessageList {
+public class RequestDelete {
     @NotNull(message="Sender cannot be null")
     private String sender;
 

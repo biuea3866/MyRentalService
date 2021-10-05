@@ -52,6 +52,11 @@ const App = () => {
                 path="/messages"
                 exact
             />
+            <Route
+                component={ MessagePage }
+                path="/messages/:writer"
+                exact
+            />
         </>
     );
 };

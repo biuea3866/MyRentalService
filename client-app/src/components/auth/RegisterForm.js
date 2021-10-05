@@ -75,6 +75,8 @@ const RegisterForm = ({ history }) => {
                 phoneNumber,
             }));
             
+            dispatch(initializeForm('register'));
+
             history.push('/');
         }
     };

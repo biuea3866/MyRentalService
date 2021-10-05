@@ -26,11 +26,11 @@ const Button = styled.button`
     }
 `;
 
-const SearchButton = () =>{
+const SearchButton = ({ text, onClick }) =>{
     return(
         <SearchButtonArea>
-            <Button>
-                검색
+            <Button onClick={ onClick }>
+                { text }
             </Button>
         </SearchButtonArea>
     );

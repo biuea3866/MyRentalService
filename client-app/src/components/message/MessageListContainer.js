@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SearchBar from './common/InputBar';
 import SearchButton from './common/InpuButton';
 import MessageCard from './MessageCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { readUserList } from '../../modules/messageList';
+import { changeField } from '../../modules/send';
+import { withRouter } from 'react-router-dom';
+import palette from '../../lib/styles/palettes';
+import { formatMs } from '@material-ui/core';
 
 const Wrap = styled.div`
     float: left;
     padding-top: 150px;
     width: 30%;
-    height: 600px;
+    height: calc(100vh - 150px);
     overflow-x: hidden;
     overflow-y: auto;
+    border-right: 1px solid ${palette.gray[3]};
 `;
 
 const Header  = styled.div`
@@ -30,35 +37,89 @@ const ListBox = styled.div`
     width: 100%;
 `;
 
+const EmptyBox = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 const MessageListContainer = () => {
-    const dummyData = [
-        { "nickname": "test-01", "createdAt": "2020-01-01", "content": "test-01" },
-        { "nickname": "test-02", "createdAt": "2020-01-01", "content": "test-02" },
-        { "nickname": "test-03", "createdAt": "2020-01-01", "content": "test-03" },
-        { "nickname": "test-04", "createdAt": "2020-01-01", "content": "test-04" },
-        { "nickname": "test-05", "createdAt": "2020-01-01", "content": "test-05" },
-        { "nickname": "test-06", "createdAt": "2020-01-01", "content": "test-06" },
-        { "nickname": "test-07", "createdAt": "2020-01-01", "content": "test-07" },
-        { "nickname": "test-08", "createdAt": "2020-01-01", "content": "test-08" },
-    ];
+    const dispatch = useDispatch();
+    const {
+        nickname,
+        sender,
+        userList, 
+        error 
+    } = useSelector(({
+        messageList,
+        send,
+        user
+    }) => ({
+        nickname: user.user.nickname,
+        sender: send.sender,
+        userList: messageList.userList,
+        error: messageList.error,
+    }));
+
+    useEffect(() => {
+        dispatch(readUserList(sender));
+    }, [dispatch, sender]);
+
+    useEffect(() => {
+        dispatch(changeField({
+            key: 'sender',
+            value: nickname
+        }));
+    }, [dispatch, nickname]);
+
+    const onClick = e => {
+        const item = e.target.innerText.split(' ');
+
+        dispatch(changeField({
+            key: 'receiver',
+            value: item[0]
+        }));
+    };
+
+    useEffect(() => {
+        userList &&
+        userList.forEach((user, index, array) => {
+            for(var i = 0; i < userList.length; i++) {
+                if(index === i) {
+                    continue;
+                } else if(
+                    user.sender === userList[i].receiver &&
+                    user.receiver === userList[i].sender
+                ) {
+                    userList.splice(i, 1);
+                }
+            }
+        });
+    }, [userList]);
 
     return(
         <Wrap>
             <Header>
                 <SearchBar placeholder="닉네임을 입력해주세요" />
-                <SearchButton />            
+                <SearchButton text="검색" />            
             </Header>
             <ListBox>
                 {
-                    dummyData.map((item, i) => {
+                    userList ?
+                    userList.map((item, i) => {
                         return <MessageCard item={ item } 
-                                            i={ i }
+                                            i={ i } 
+                                            onClick={ onClick }
                                />
-                    })
+                    }) : 
+                    <EmptyBox>
+                        메시지함이 비어있습니다!
+                    </EmptyBox>
                 }
             </ListBox>
         </Wrap>
     );
 };
 
-export default MessageListContainer;
+export default withRouter(MessageListContainer);

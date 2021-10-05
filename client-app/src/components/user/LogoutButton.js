@@ -20,9 +20,9 @@ const Button = styled.button`
     }
 `;
 
-const LogoutButton = () => {
+const LogoutButton = ({ onLogout }) => {
     return(
-        <Button>
+        <Button onClick={ onLogout }>
             Logout
         </Button>
     );

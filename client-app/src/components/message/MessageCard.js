@@ -1,8 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palettes';
 
 const Card = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 80px;
     &:hover {
@@ -10,38 +14,26 @@ const Card = styled.div`
     }
     padding-top: 1rem;
     padding-left: 4rem;
+    cursor: pointer;
 `;
 
 const Nickname = styled.div`
-    float: left;
-    width: 70%;
-    height: 40px;
-`;
-
-const Date = styled.div`
-    float: left;
-    width: 30%;
-    height: 40px;
-`;
-
-const Content = styled.div`
     width: 100%;
-    height: 80px;
-    overflow: hidden;
+    height: 40px;
 `;
 
-const MessageCard = ({ item, i }) => {
+const MessageCard = ({ 
+    item, 
+    i, 
+    onClick,
+}) => {
+    const { nickname } = useSelector(({ user }) => ({ nickname: user.user.nickname }));
+    
     return(
-        <Card>
+        <Card onClick={ onClick }>
             <Nickname>
-                { item.nickname } 
+                { item.receiver === nickname ? item.sender : item.receiver } 님과의 채팅 
             </Nickname>
-            <Date>
-                { item.createdAt }
-            </Date>
-            <Content>
-                { item.content }
-            </Content>
         </Card>
     );
 };

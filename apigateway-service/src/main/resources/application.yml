@@ -32,8 +32,8 @@ spring:
         - id: auth
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth-service/check/**
-            - Method=GET
+            - Path=/auth-service/logout
+            - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
@@ -41,12 +41,21 @@ spring:
         - id: auth
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth-service/**
+            - Path=/auth-service/info/**
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+
+        - id: auth
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/check/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
 
         - id: auth
           uri: lb://AUTH-SERVICE

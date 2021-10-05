@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import LogoutBox from './LogoutBox';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { initializeForm } from '../../modules/auth';
+import { logout } from '../../modules/user';
 
 const MyPageFormBlock = styled.table`
     width: 50%;
@@ -62,9 +63,12 @@ const TextBox = styled.div`
 `;
 
 const MyPageForm = ({ history }) => {
-    const { user } = useSelector(({ user }) => ({
-        user: user.user
-    }));
+    const dispatch = useDispatch();
+    const { user } = useSelector(({ user }) => ({ user: user.user }));
+
+    const onLogout = () => {
+        dispatch(logout());
+    };
 
     useEffect(() => {
         if(!user) {
@@ -82,7 +86,7 @@ const MyPageForm = ({ history }) => {
                                 안녕하세요 <b>{ user.nickname }</b> 님!
                             </TextBox>
                             <LogoutBox>
-                                <LogoutButton />
+                                <LogoutButton onLogout={ onLogout } />
                             </LogoutBox>
                         </FullLine>
                     </LineBlock>

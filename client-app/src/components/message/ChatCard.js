@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palettes';
 
@@ -37,25 +38,30 @@ const ReceiverCard = styled.div`
     border-radius: 10px;
 `;
 
-const ChatCard = () => {
+const ChatCard = ({ item }) => {
+    const { nickname } = useSelector(({ user }) =>  ({ nickname: user.user.nickname }));
+    
     return(
         <>
-            <Card>
-                <ReceiverCard>
-                    asdsadsadsa
-                </ReceiverCard>
-                <ReceiverDate>
-                    2020-01-01
-                </ReceiverDate>
-            </Card>
-            <Card>
-                <SenderCard>
-                    asdsadsad
-                </SenderCard>
-                <SenderDate>
-                    2020-01-02
-                </SenderDate>
-            </Card>
+            {
+                item.sender === nickname ?     
+                <Card>
+                    <SenderCard>
+                        { item.content }
+                    </SenderCard>
+                    <SenderDate>
+                        { item.createdAt }
+                    </SenderDate>
+                </Card> :
+                <Card>
+                    <ReceiverCard>
+                        { item.content }
+                    </ReceiverCard>
+                    <ReceiverDate>
+                        { item.createdAt }
+                    </ReceiverDate>
+                </Card>
+            }
         </>
     );
 };

@@ -45,19 +45,16 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public Iterable<MessageDto> getUserList(String receiver) {
+    public Iterable<MessageDto> getUserList(String sender) {
         log.info("Message Service's Service Layer :: Call getUserList Method!");
 
-        Iterable<MessageEntity> messageList = messageRepository.findUserList(receiver);
+        Iterable<Object[]> messageList = messageRepository.findUserList(sender);
         List<MessageDto> messages = new ArrayList<>();
 
         messageList.forEach(message -> {
             messages.add(MessageDto.builder()
-                                   .id(message.getId())
-                                   .sender(message.getSender())
-                                   .receiver(message.getReceiver())
-                                   .content(message.getContent())
-                                   .createdAt(message.getCreatedAt())
+                                   .sender(String.valueOf(message[0]))
+                                   .receiver(String.valueOf(message[1]))
                                    .build());
         });
 
@@ -87,5 +84,19 @@ public class MessageServiceImpl implements MessageService {
         });
 
         return messages;
+    }
+
+    @Transactional
+    @Override
+    public String delete(
+        String sender,
+        String receiver
+    ) {
+        log.info("Message Service's Service Layer :: Call delete Method!");
+
+        messageRepository.deleteBySenderAndReceiver(sender,
+                                                    receiver);
+
+        return "Successfully Delete messages";
     }
 }

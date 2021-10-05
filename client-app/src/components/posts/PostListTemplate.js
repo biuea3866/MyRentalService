@@ -6,7 +6,7 @@ import PostHeader from './PostHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { readPostList } from '../../modules/postList';
 import PostCard from './PostCard';
-import PostLoading from './common/PostLoading';
+import Loading from '../common/Loading';
 
 const PostListTemplateBlock = styled.div`
     background: ${ palette.gray[2] };
@@ -57,7 +57,7 @@ const PostListTemplate = ({ history }) => {
                                               i={ i }
                                     />
                         }
-                    ) : <PostLoading />
+                    ) : <Loading />
                 }
             </PostListTemplateBlock>
         </>

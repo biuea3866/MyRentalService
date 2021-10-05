@@ -20,13 +20,13 @@ export const register = ({
     phoneNumber
 });
 
-export const getUser = userId => client.get(`/auth-service/${userId}/info`, {
+export const getUser = userId => client.get(`/auth-service/info/${userId}`, {
     headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))   
     }
 });
 
-export const check = userId => client.get(`/auth-service/${userId}/check`, {
+export const check = userId => client.get(`/auth-service/info/${userId}/check`, {
     headers: {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))       
     }
@@ -34,5 +34,6 @@ export const check = userId => client.get(`/auth-service/${userId}/check`, {
 
 export const checkNickname = nickname => client.get(`/auth-service/check/nickname/${nickname}`);
 
-
 export const checkEmail = email => client.get(`/auth-service/check/email/${email}`);
+
+export const logout = () => client.post('/auth-service/logout');

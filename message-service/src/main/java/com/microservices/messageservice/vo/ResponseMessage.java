@@ -1,13 +1,11 @@
 package com.microservices.messageservice.vo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseMessage {
     private Long id;
     private String sender;
