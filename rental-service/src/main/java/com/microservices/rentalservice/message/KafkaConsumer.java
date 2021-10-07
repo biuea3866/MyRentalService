@@ -51,5 +51,4 @@ public class KafkaConsumer {
 
         rentalRepository.save(rentalEntity);
     }
-
 }

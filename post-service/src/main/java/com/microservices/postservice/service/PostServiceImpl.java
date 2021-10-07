@@ -329,4 +329,16 @@ public class PostServiceImpl implements PostService {
 
         return postList;
     }
+
+    @Transactional
+    @Override
+    public void rental(Long id) {
+        log.info("Post Service's Service Layer :: Call rental Method!");
+
+        PostEntity entity = postRepository.findPostById(id);
+
+        entity.setStatus(PostStatus.COMPLETE_RENTAL.name());
+
+        postRepository.save(entity);
+    }
 }

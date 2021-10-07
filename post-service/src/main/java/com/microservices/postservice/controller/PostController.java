@@ -297,7 +297,9 @@ public class PostController {
 
         kafkaProducer.send("rental-topic", postVo);
 
-        return ResponseEntity.status(HttpStatus.OK).body(postVo);
+        postService.rental(postVo.getPostId());
+
+        return ResponseEntity.status(HttpStatus.OK).body("Success rental");
     }
 
     @PostMapping("/{id}/delete")

@@ -18,4 +18,6 @@ public interface PostService {
     Iterable<PostDto> getPostsByKeyword(String keyword);
 
     Iterable<PostDto> getPostsByCategory(String category);
+
+    void rental(Long postId);
 }
