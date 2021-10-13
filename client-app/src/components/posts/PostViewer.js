@@ -7,6 +7,8 @@ import Shortcut from '../common/Shortcut';
 import paper_plane_outline from '../../static/img/paper-plane-outline.svg';
 import CommentContainer from '../comment/CommentContainer';
 import ImageSlider from '../common/ImageSlider';
+import { useDispatch, useSelector } from 'react-redux';
+import { createRental } from '../../modules/rental';
 
 const PostViewerBlock = styled.div`
     padding-top: 200px;
@@ -81,11 +83,38 @@ const RentalButton = styled(FullButton)`
 const StyledShorcut = styled(Shortcut)`
     color: ${palette.blue[4]};
 `;
+
 const PostViewer = ({
     post, 
     error, 
     loading
 }) => {
+    const dispatch = useDispatch();
+    const { nickname } = useSelector(({ user }) => ({ nickname: user.user.nickname }));
+    const onRental = () => {
+        const { 
+            id,
+            writer,
+            rentalPrice,
+            startDate,
+            endDate
+        } = post;
+
+        const postId = id;
+        const owner = writer;
+        const borrower = nickname;
+        const price = rentalPrice;
+
+        dispatch(createRental({
+            postId,
+            owner,
+            borrower,
+            price,
+            startDate,
+            endDate
+        }));
+    };
+
     if(error) {
         if(error.response && error.response.status === 404) {
             return <PostViewerBlock>존재하지 않는 포스트입니다.</PostViewerBlock>
@@ -126,15 +155,9 @@ const PostViewer = ({
                         />
                     </MessageArea>
                     <RentalArea>
-                        <Link to={{
-                                pathname: '/rentals',
-                                state: { post: post }
-                            }}
-                        >
-                            <RentalButton>
-                                빌리기
-                            </RentalButton>
-                        </Link>
+                        <RentalButton onClick={ onRental }>
+                            빌리기
+                        </RentalButton>
                     </RentalArea>
                 </PostNav>
             }

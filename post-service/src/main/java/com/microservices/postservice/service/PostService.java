@@ -20,4 +20,6 @@ public interface PostService {
     Iterable<PostDto> getPostsByCategory(String category);
 
     void rental(Long postId);
+
+    void rollbackPost(Long postId);
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservices.rentalservice.entity.RentalEntity;
 import com.microservices.rentalservice.repository.RentalRepository;
+import com.microservices.rentalservice.status.RentalStatus;
 import com.microservices.rentalservice.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class KafkaConsumer {
                                                 .price(Long.parseLong(String.valueOf(map.get("price"))))
                                                 .startDate((String)map.get("startDate"))
                                                 .endDate((String)map.get("endDate"))
+                                                .status(RentalStatus.PENDING_RENTAL.name())
                                                 .createdAt(DateUtil.dateNow())
                                                 .build();
 

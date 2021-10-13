@@ -3,7 +3,7 @@ package com.microservices.rentalservice.service;
 import com.microservices.rentalservice.dto.RentalDto;
 
 public interface RentalService {
-    RentalDto createRental(RentalDto rentalDto);
+    RentalDto completeRental(String rentalId);
 
     RentalDto getRentalByRentalId(String rentalId);
 
@@ -11,5 +11,7 @@ public interface RentalService {
 
     Iterable<RentalDto> getRentalsByBorrower(String borrower);
 
-    RentalDto deleteRental(String rentalId);
+    void decline(String rentalId);
+
+    Iterable<RentalDto> getRentalsByPending(String owner);
 }

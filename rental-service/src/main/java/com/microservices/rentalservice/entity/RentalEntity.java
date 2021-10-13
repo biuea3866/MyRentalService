@@ -39,6 +39,9 @@ public class RentalEntity {
     @Column(nullable = false)
     private String createdAt;
 
+    @Column(nullable = false)
+    private String status;
+
     @Builder
     public RentalEntity(
         String rentalId,
@@ -48,7 +51,8 @@ public class RentalEntity {
         String borrower,
         String startDate,
         String endDate,
-        String createdAt
+        String createdAt,
+        String status
     ) {
         this.rentalId = rentalId;
         this.postId = postId;
@@ -58,5 +62,6 @@ public class RentalEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdAt = createdAt;
+        this.status = status;
     }
 }

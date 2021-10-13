@@ -9,6 +9,7 @@ import writeComment, { writeCommentSaga } from "./writeComment";
 import send, { sendSaga } from './send';
 import messageList, { messageListSaga } from "./messageList";
 import loading from './loading';
+import rental, { rentalSaga } from "./rental";
 
 const rootReducer = combineReducers(
     {
@@ -21,6 +22,7 @@ const rootReducer = combineReducers(
         writeComment,
         send,
         messageList,
+        rental,
     },
 );
 
@@ -34,6 +36,7 @@ export function* rootSaga() {
         writeCommentSaga(),
         sendSaga(),
         messageListSaga(),
+        rentalSaga(),
     ]);
 }
 

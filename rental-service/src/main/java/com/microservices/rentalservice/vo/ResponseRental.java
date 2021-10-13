@@ -15,6 +15,7 @@ public class ResponseRental {
     private String startDate;
     private String endDate;
     private String createdAt;
+    private String status;
 
     @Builder
     public ResponseRental(
@@ -25,7 +26,8 @@ public class ResponseRental {
         String borrower,
         String startDate,
         String endDate,
-        String createdAt
+        String createdAt,
+        String status
     ) {
         this.rentalId = rentalId;
         this.postId = postId;
@@ -35,5 +37,6 @@ public class ResponseRental {
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdAt = createdAt;
+        this.status = status;
     }
 }

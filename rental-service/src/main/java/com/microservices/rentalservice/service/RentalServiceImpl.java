@@ -3,6 +3,7 @@ package com.microservices.rentalservice.service;
 import com.microservices.rentalservice.dto.RentalDto;
 import com.microservices.rentalservice.entity.RentalEntity;
 import com.microservices.rentalservice.repository.RentalRepository;
+import com.microservices.rentalservice.status.RentalStatus;
 import com.microservices.rentalservice.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -25,19 +25,12 @@ public class RentalServiceImpl implements RentalService {
 
     @Transactional
     @Override
-    public RentalDto createRental(RentalDto rentalDto) {
-        log.info("Rental Service's Service Layer :: Call createRental write Method!");
+    public RentalDto completeRental(String rentalId) {
+        log.info("Rental Service's Service Layer :: Call completeRental write Method!");
 
-        RentalEntity rentalEntity = RentalEntity.builder()
-                                                .rentalId(UUID.randomUUID().toString())
-                                                .postId(rentalDto.getPostId())
-                                                .price(rentalDto.getPrice())
-                                                .owner(rentalDto.getOwner())
-                                                .borrower(rentalDto.getBorrower())
-                                                .startDate(rentalDto.getStartDate())
-                                                .endDate(rentalDto.getEndDate())
-                                                .createdAt(DateUtil.dateNow())
-                                                .build();
+        RentalEntity rentalEntity = rentalRepository.findByRentalId(rentalId);
+
+        rentalEntity.setStatus(RentalStatus.BEING_RENTAL.name());
 
         rentalRepository.save(rentalEntity);
 
@@ -49,6 +42,7 @@ public class RentalServiceImpl implements RentalService {
                         .borrower(rentalEntity.getBorrower())
                         .startDate(rentalEntity.getStartDate())
                         .endDate(rentalEntity.getEndDate())
+                        .status(rentalEntity.getStatus())
                         .createdAt(rentalEntity.getCreatedAt())
                         .build();
     }
@@ -68,6 +62,7 @@ public class RentalServiceImpl implements RentalService {
                         .borrower(rentalEntity.getBorrower())
                         .startDate(rentalEntity.getStartDate())
                         .endDate(rentalEntity.getEndDate())
+                        .status(rentalEntity.getStatus())
                         .createdAt(rentalEntity.getCreatedAt())
                         .build();
     }
@@ -89,6 +84,7 @@ public class RentalServiceImpl implements RentalService {
                                     .borrower(v.getBorrower())
                                     .startDate(v.getStartDate())
                                     .endDate(v.getEndDate())
+                                    .status(v.getStatus())
                                     .createdAt(v.getCreatedAt())
                                     .build());
         });
@@ -113,6 +109,7 @@ public class RentalServiceImpl implements RentalService {
                                     .borrower(v.getBorrower())
                                     .startDate(v.getStartDate())
                                     .endDate(v.getEndDate())
+                                    .status(v.getStatus())
                                     .createdAt(v.getCreatedAt())
                                     .build());
         });
@@ -122,15 +119,36 @@ public class RentalServiceImpl implements RentalService {
 
     @Transactional
     @Override
-    public RentalDto deleteRental(String rentalId) {
-        log.info("Rental Service's Service Layer :: Call deleteRental Method!");
+    public void decline(String rentalId) {
+        log.info("Rental Service's Service Layer :: Call decline write Method!");
 
         RentalEntity rentalEntity = rentalRepository.findByRentalId(rentalId);
 
         rentalRepository.delete(rentalEntity);
+    }
 
-        return RentalDto.builder()
-                        .rentalId(rentalEntity.getRentalId())
-                        .build();
+    @Transactional
+    @Override
+    public Iterable<RentalDto> getRentalsByPending(String owner) {
+        log.info("Rental Service's Service Layer :: Call getRentalsByPending write Method!");
+
+        Iterable<RentalEntity> rentals = rentalRepository.findRentalsByPending(owner);
+        List<RentalDto> rentalList = new ArrayList<>();
+
+        rentals.forEach(v -> {
+            rentalList.add(RentalDto.builder()
+                                    .rentalId(v.getRentalId())
+                                    .postId(v.getPostId())
+                                    .price(v.getPrice())
+                                    .owner(v.getOwner())
+                                    .borrower(v.getBorrower())
+                                    .startDate(v.getStartDate())
+                                    .endDate(v.getEndDate())
+                                    .status(v.getStatus())
+                                    .createdAt(v.getCreatedAt())
+                                    .build());
+        });
+
+        return rentalList;
     }
 }

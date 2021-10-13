@@ -109,8 +109,8 @@ const MyPageForm = ({ history }) => {
                     <LineBlock>
                         <HalfLeftLine>
                             <TextBox>
-                                <Link to="#">
-                                    찜 리스트
+                                <Link to="/user/rental-request">
+                                    대여 요청
                                 </Link>
                             </TextBox>
                         </HalfLeftLine>

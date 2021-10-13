@@ -2,6 +2,7 @@ package com.microservices.rentalservice.controller;
 
 import com.microservices.rentalservice.dto.RentalDto;
 import com.microservices.rentalservice.service.RentalService;
+import com.microservices.rentalservice.vo.RequestComplete;
 import com.microservices.rentalservice.vo.RequestCreate;
 import com.microservices.rentalservice.vo.ResponseRental;
 import lombok.extern.slf4j.Slf4j;
@@ -39,28 +40,26 @@ public class RentalController {
         );
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createRental(@RequestBody RequestCreate rentalVo) {
+    @PostMapping("/complete-rental")
+    public ResponseEntity<?> completeRental(@RequestBody RequestComplete vo) {
         log.info("Rental Service's Controller Layer :: Call createRental Method!");
 
-        RentalDto rentalDto = RentalDto.builder()
-                                       .postId(rentalVo.getPostId())
-                                       .price(rentalVo.getPrice())
-                                       .owner(rentalVo.getOwner())
-                                       .borrower(rentalVo.getBorrower())
-                                       .startDate(rentalVo.getStartDate())
-                                       .endDate(rentalVo.getEndDate())
-                                       .build();
+        if(!vo.isAcceptance()) {
+            rentalService.decline(vo.getRentalId());
 
-        RentalDto rental = rentalService.createRental(rentalDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Your request is declined");
+        }
+
+        RentalDto rental = rentalService.completeRental(vo.getRentalId());
         ResponseRental responseRental = ResponseRental.builder()
                                                       .rentalId(rental.getRentalId())
-                                                      .postId(rentalVo.getPostId())
-                                                      .price(rentalVo.getPrice())
-                                                      .owner(rentalVo.getOwner())
-                                                      .borrower(rentalVo.getBorrower())
-                                                      .startDate(rentalVo.getStartDate())
-                                                      .endDate(rentalVo.getEndDate())
+                                                      .postId(rental.getPostId())
+                                                      .price(rental.getPrice())
+                                                      .owner(rental.getOwner())
+                                                      .borrower(rental.getBorrower())
+                                                      .startDate(rental.getStartDate())
+                                                      .endDate(rental.getEndDate())
+                                                      .status(rental.getStatus())
                                                       .createdAt(rental.getCreatedAt())
                                                       .build();
 
@@ -81,6 +80,7 @@ public class RentalController {
                                                                        .borrower(rentalDto.getBorrower())
                                                                        .startDate(rentalDto.getStartDate())
                                                                        .endDate(rentalDto.getEndDate())
+                                                                       .status(rentalDto.getStatus())
                                                                        .createdAt(rentalDto.getCreatedAt())
                                                                        .build());
     }
@@ -101,6 +101,7 @@ public class RentalController {
                                      .borrower(v.getBorrower())
                                      .startDate(v.getStartDate())
                                      .endDate(v.getEndDate())
+                                     .status(v.getStatus())
                                      .createdAt(v.getCreatedAt())
                                      .build());
         });
@@ -124,6 +125,7 @@ public class RentalController {
                                      .borrower(v.getBorrower())
                                      .startDate(v.getStartDate())
                                      .endDate(v.getEndDate())
+                                     .status(v.getStatus())
                                      .createdAt(v.getCreatedAt())
                                      .build());
         });
@@ -131,16 +133,27 @@ public class RentalController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/{rentalId}/cancel")
-    public ResponseEntity<?> deleteRental(@PathVariable("rentalId") String rentalId) {
-        log.info("Rental Service's Controller Layer :: Call deleteRental Method!");
+    @GetMapping("/{owner}/request-rentals")
+    public ResponseEntity<?> getRentalsByPending(@PathVariable("owner") String owner) {
+        log.info("Rental Service's Controller Layer :: Call getRentalsByPending Method!");
 
-        RentalDto rentalDto = rentalService.deleteRental(rentalId);
+        Iterable<RentalDto> rentalList = rentalService.getRentalsByPending(owner);
+        List<ResponseRental> result = new ArrayList<>();
 
-        ResponseRental responseRental = ResponseRental.builder()
-            .rentalId(rentalDto.getRentalId())
-            .build();
+        rentalList.forEach(v -> {
+            result.add(ResponseRental.builder()
+                                     .rentalId(v.getRentalId())
+                                     .postId(v.getPostId())
+                                     .price(v.getPrice())
+                                     .owner(v.getOwner())
+                                     .borrower(v.getBorrower())
+                                     .startDate(v.getStartDate())
+                                     .endDate(v.getEndDate())
+                                     .status(v.getStatus())
+                                     .createdAt(v.getCreatedAt())
+                                     .build());
+        });
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseRental.getRentalId() + " :: Successfully delete");
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

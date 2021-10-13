@@ -341,4 +341,16 @@ public class PostServiceImpl implements PostService {
 
         postRepository.save(entity);
     }
+
+    @Transactional
+    @Override
+    public void rollbackPost(Long postId) {
+        log.info("Post Service's Service Layer :: Call rollbackPost Method!");
+
+        PostEntity entity = postRepository.findPostById(postId);
+
+        entity.setStatus(PostStatus.READY_RENTAL.name());
+
+        postRepository.save(entity);
+    }
 }

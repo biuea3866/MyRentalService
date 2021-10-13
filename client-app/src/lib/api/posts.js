@@ -64,3 +64,21 @@ export const writeComment = ({
 });
 
 export const deleteComment = id => client.delete(`/post-service/${id}/comments`); 
+
+export const createRental = ({
+    postId,
+    owner,
+    borrower,
+    price,
+    startDate,
+    endDate
+}) => client.post('/post-service/rental', {
+    postId,
+    owner,
+    borrower,
+    price,
+    startDate,
+    endDate
+});
+
+export const rollbackStatus = postId => client.post(`/post-service/rollback/${postId}`);

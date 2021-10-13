@@ -11,6 +11,7 @@ import Loading from '../common/Loading';
 const PostListTemplateBlock = styled.div`
     background: ${ palette.gray[2] };
     padding-top: 30px;
+    height: 100vh;
     display: flex;
     flex-direction: center;
     flex-wrap: wrap;

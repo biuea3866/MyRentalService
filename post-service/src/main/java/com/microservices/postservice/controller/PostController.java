@@ -326,4 +326,13 @@ public class PostController {
 
         return ResponseEntity.status(HttpStatus.OK).body(commentService.deleteComment(id));
     }
+
+    @PostMapping("/rollback/{postId}")
+    public ResponseEntity<?> rollbackPost(@PathVariable("postId") Long postId) {
+        log.info("Post Service's Controller Layer :: Call rollbackPost Method!");
+
+        postService.rollbackPost(postId);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully rollback!");
+    }
 }

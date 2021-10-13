@@ -8,54 +8,50 @@ import PostDetailPage from './pages/PostDetailPage';
 import PostPage from './pages/PostPage';
 import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
+import RequestPage from './pages/RequestPage';
 
 const App = () => {
     return(
         <>
-            <Route 
-                component={ HomePage }
-                path="/"
-                exact
+            <Route component={ HomePage }
+                   path="/"
+                   exact
             />
-            <Route 
-                component={ MyPage }
-                path="/user/my-account"
-                exact
+            <Route component={ MyPage }
+                   path="/user/my-account"
+                   exact
             />
-            <Route 
-                component={ LoginPage }
-                path="/auth/login"
-                exact
+            <Route component={ RequestPage }
+                   path="/user/rental-request"
+                   exact
             />
-            <Route 
-                component={ RegisterPage }
-                path="/auth/register"
-                exact
+            <Route component={ LoginPage }
+                   path="/auth/login"
+                   exact
             />
-            <Route
-                component={ PostPage }
-                path="/posts"
-                exact
+            <Route component={ RegisterPage }
+                   path="/auth/register"
+                   exact
             />
-            <Route 
-                component={ WritePage }
-                path="/posts/write"
-                exact
+            <Route component={ PostPage }
+                   path="/posts"
+                   exact
             />
-            <Route 
-                component={ PostDetailPage }
-                path="/posts/post/:id"
-                exact
+            <Route component={ WritePage }
+                   path="/posts/write"
+                   exact
             />
-            <Route 
-                component={ MessagePage }
-                path="/messages"
-                exact
+            <Route component={ PostDetailPage }
+                   path="/posts/post/:id"
+                   exact
             />
-            <Route
-                component={ MessagePage }
-                path="/messages/:writer"
-                exact
+            <Route component={ MessagePage }
+                   path="/messages"
+                   exact
+            />
+            <Route component={ MessagePage }
+                   path="/messages/:writer"
+                   exact
             />
         </>
     );
