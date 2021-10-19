@@ -14,4 +14,6 @@ public interface RentalService {
     void decline(String rentalId);
 
     Iterable<RentalDto> getRentalsByPending(String owner);
+
+    void expiredRental(String rentalId);
 }

@@ -151,4 +151,16 @@ public class RentalServiceImpl implements RentalService {
 
         return rentalList;
     }
+
+    @Transactional
+    @Override
+    public void expiredRental(String rentalId) {
+        log.info("Rental Service's Service Layer :: Call expiredRental write Method!");
+
+        RentalEntity entity = rentalRepository.findByRentalId(rentalId);
+
+        entity.setStatus(RentalStatus.EXPIRED_RENTAL.name());
+
+        rentalRepository.save(entity);
+    }
 }
